@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8">
 	<title>个人资料界面</title>
@@ -11,7 +11,7 @@
 	<script src="../res/js/info.js"></script>
 </head>
 <body ng-app="infoApp">
-	<div class="person-container" ng-controller="infoCtrl">
+	<div class="person-container" ng-controller="infoCtrl" th:fragment="container">
 		<div class="person-head-portrait">
 			<img src="../upload/Alice/image/portrait.png" alt="">
 			<div class="change-head-portrait">
@@ -50,9 +50,7 @@
 				<div class="person-info">
 					<span class="person-info-name">邮箱</span>
 					<span class="person-info-content">{{userInfo.userEmail || "请添加信息"}}</span>
-					<input type="text" class="person-info-input" ng-model="userInfo.userEmail"/>
-					<span class="person-info-edit">修改</span>
-					<span class="person-info-certain" ng-click="changePerInfo('userEmail', userInfo.userEmail)">确定</span>
+					<span class="person-info-edit click-disable"></span>
 				</div>
 				<div class="person-info">
 					<span class="person-info-name">性别</span>
