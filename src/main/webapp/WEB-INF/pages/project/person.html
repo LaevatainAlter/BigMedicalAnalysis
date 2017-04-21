@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>个人资料界面</title>
+	<link rel="stylesheet" href="../res/css/reset.css"/>
+	<link rel="stylesheet" href="../res/css/font-awesome.min.css"/>
+	<link rel="stylesheet" href="../res/css/content.css"/>
+	<script src="../res/js/jquery-3.1.1.min.js"></script>
+	<script src="../res/js/angular-1.6.1.min.js"></script>
+	<script src="../res/js/info.js"></script>
+</head>
+<body ng-app="infoApp">
+	<div class="person-container" ng-controller="infoCtrl">
+		<div class="person-head-portrait">
+			<img src="../upload/Alice/image/portrait.png" alt="">
+			<div class="change-head-portrait">
+				更改头像
+			</div>
+		</div>
+		<nav class="person-nav" id="theNav" data-left="70px">
+			<ul>
+				<li class="person-li" ng-click="getPerInfo()">
+					<a href="#" class="active">个人信息</a>
+				</li>
+				<li class="person-li">
+					<a href="#">账号密码</a>
+				</li>
+				<li class="person-li" ng-click="getLoginRecord()">
+					<a href="#">登录记录</a>
+				</li>
+			</ul>
+		</nav>
+		<div class="person-content">
+			<div id="person-content0">
+				<div class="person-info">
+					<span class="person-info-name">真实姓名</span>
+					<span class="person-info-content">{{userInfo.userName || "请添加信息"}}</span>
+					<input type="text" class="person-info-input" ng-model="userInfo.userName"/>
+					<span class="person-info-edit">修改</span>
+					<span class="person-info-certain" ng-click="changePerInfo('userName', userInfo.userName)">确定</span>
+				</div>
+				<div class="person-info">
+					<span class="person-info-name">电话</span>
+					<span class="person-info-content person-info-none">{{userInfo.userPhone || "请添加信息"}}</span>
+					<input type="text" class="person-info-input" ng-model="userInfo.userPhone"/>
+					<span class="person-info-edit">立即添加</span>
+					<span class="person-info-certain" ng-click="changePerInfo('userPhone', userInfo.userPhone)">确定</span>
+				</div>
+				<div class="person-info">
+					<span class="person-info-name">邮箱</span>
+					<span class="person-info-content">{{userInfo.userEmail || "请添加信息"}}</span>
+					<input type="text" class="person-info-input" ng-model="userInfo.userEmail"/>
+					<span class="person-info-edit">修改</span>
+					<span class="person-info-certain" ng-click="changePerInfo('userEmail', userInfo.userEmail)">确定</span>
+				</div>
+				<div class="person-info">
+					<span class="person-info-name">性别</span>
+					<span class="person-info-content">{{userInfo.userSex == 0 ? '男': '女'}}</span>
+					<div class="person-info-input">
+						<label>
+							<input type="radio" name="sexRadio" ng-model="userInfo.userSex" ng-value="0"/>
+							男
+						</label>
+						<label>
+							<input type="radio" name="sexRadio" ng-model="userInfo.userSex" ng-value="1"/>
+							女
+						</label>
+					</div>
+					<span class="person-info-edit">修改</span>
+					<span class="person-info-certain" ng-click="changePerInfo('userSex', userInfo.userSex)">确定</span>
+				</div>
+				<div class="person-info">
+					<span class="person-info-name">出生日期</span>
+					<span class="person-info-content">{{userInfo.userBirth || "请添加信息"}}</span>
+					<input type="text" class="person-info-input" ng-model="userInfo.userBirth"/>
+					<!-- <div class="person-info-input">
+						<input type="date" min="1900-01-12" max="2017-4-20"/>
+						<select name="" id=""></select>
+					</div> -->
+					<span class="person-info-edit">修改</span>
+					<span class="person-info-certain" ng-click="changePerInfo('userBirth', userInfo.userBirth)">确定</span>
+				</div>
+				<div class="person-info">
+					<span class="person-info-name">注册时间</span>
+					<span class="person-info-content">{{userInfo.userRegTime || "请添加信息"}}</span>
+					<input type="text" class="person-info-input" ng-model="userInfo.userRegTime"/>
+					<span class="person-info-edit">注销账户</span>
+					<span class="person-info-certain" ng-click="changePerInfo('userRegTime', userInfo.userRegTime)">确定</span>
+				</div>
+				<div class="person-info">
+					<span class="person-info-name">所在医院</span>
+					<span class="person-info-content">{{userInfo.userHospital || "请添加信息"}}</span>
+					<input type="text" class="person-info-input" ng-model="userInfo.userHospital"/>
+					<span class="person-info-edit">修改</span>
+					<span class="person-info-certain" ng-click="changePerInfo('userHospital', userInfo.userHospital)">确定</span>
+				</div>
+			</div>
+			<div id="person-content1">
+				<div class="person-info">
+					<span class="person-info-name">登录密码<i class="fa fa-lock"></i></span>
+					<span class="person-info-content">登录账号时所需的密码</span>
+					<input type="password" class="person-info-input" ng-model="accountPass.oldPass"/>
+					<span class="person-info-edit">修改</span>
+					<span class="person-info-certain" ng-click="verifyPass(accountPass.oldPass)">确定</span>
+				</div>
+				<div class="person-info">
+					<span class="person-info-name">新的密码<i class="fa fa-lock"></i></span>
+					<span class="person-info-content person-info-content-pass">重新设置密码，密码不低于6位</span>
+					<input type="password" class="person-info-input person-info-input-pass" ng-model="accountPass.newPass"/>
+					<span class="person-info-edit"></span>
+				</div>
+				<div class="person-info">
+					<span class="person-info-name">重复密码<i class="fa fa-lock"></i></span>
+					<span class="person-info-content person-info-content-pass">重复输入新设置的密码</span>
+					<input type="password" class="person-info-input person-info-input-pass" ng-model="accountPass.newPassRepeat"/>
+					<span id="person-pass-change" class="click-disable" ng-click="changePass(accountPass.oldPass, accountPass.newPass, accountPass.newPassRepeat)">确定</span>
+				</div>
+			</div>
+			<div id="person-content2">
+				<!-- <div class="person-login-info">
+					登录记录<span>您最近一周的登录情况</span>
+				</div> -->
+				<table>
+					<thead>
+						<tr>
+							<th>时间</th>
+							<th>变化</th>
+							<th>地理位置</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="item in loginRecord">
+							<td>{{item.recordTime}}</td>
+							<td>{{item.recordIP}}</td>
+							<td>{{item.recordPosition}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

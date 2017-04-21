@@ -1,0 +1,220 @@
+.delete-container{
+	width: 82%;
+	height: 100%;
+	margin: 0 auto;
+}
+
+.delete-content{
+	width: 70%;
+	height: 100%;
+	margin: 0 auto;
+	border-left: 1px solid black;
+	border-right: 1px solid black;
+}
+
+.person-container{
+	padding: 30px;
+}
+
+.person-container .person-head-portrait{
+	position: relative;
+	margin-bottom: 10px;
+}
+
+.person-container .person-head-portrait img{
+	border: 1px solid black;
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	-ms-border-radius: 50%;
+	-o-border-radius: 50%;
+	border-radius: 50%;
+	width: 200px;
+	height: 200px;
+	display: block;
+	margin: 0 auto;
+}
+
+.person-container .person-head-portrait .change-head-portrait{
+	position: absolute;
+	background: rgb(49, 143, 201);
+	color: white;
+	padding: 13px;
+	text-align: center;
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	-ms-border-radius: 50%;
+	-o-border-radius: 50%;
+	border-radius: 50%;
+	width: 70px;
+	height: 70px;
+	top: calc(50% + 100px - 35px);
+	left: calc(50% + 100px - 35px);
+	transform: translate(-50%, -50%);
+}
+
+.person-container .person-head-portrait .change-head-portrait:hover{
+	background: rgb(58, 164, 218);
+	cursor: pointer;
+}
+
+
+.person-container .person-nav{
+	overflow: auto;
+	position: relative;
+}
+
+.person-container .person-nav ul{
+	overflow: auto;
+	border-bottom: 2px solid rgb(234, 234, 234);
+	padding-bottom: 5px;
+}
+
+.person-container .person-nav::after{
+	position: absolute;
+	display: block;
+	content: "";
+	height: 2px;
+	width: 63px;
+	background: rgb(49, 143, 201);
+	bottom: 0px;
+	left: 0;
+	transition: left 0.3s ease 0s;
+}
+
+.person-container .person-nav .person-li a{
+	color: black;
+}
+
+.person-li .active{
+	color: rgb(49, 143, 201) !important;
+}
+
+.person-container .person-nav .person-li{
+	float: left;
+	margin-right: 20px;
+	position: relative;
+}
+
+.change-person-li0::after{
+	left: 0px !important;
+}
+
+.change-person-li1::after{
+	left: 84px !important;
+}
+
+.change-person-li2::after{
+	left: 168px !important;
+}
+
+#person-content0, #person-content1, #person-content2{
+	padding: 10px;
+}
+
+#person-content1, #person-content2{
+	display: none;
+}
+
+.person-content .person-info{
+	padding: 15px 10px;
+	border-bottom: 1px solid rgb(242, 244, 248);
+}
+
+.person-content .person-info::after{
+	content: ""; 
+	display: block; 
+	height: 0; 
+	clear: both; 
+	visibility: hidden;
+}
+
+.person-content .person-info span{
+	display: block;
+	float: left;
+}
+
+.person-content .person-info .person-info-name{
+	width: 30%;
+}
+
+.person-content .person-info .person-info-content{
+	width: 60%;
+	color: rgb(137, 147, 152);
+	display: block;
+}
+
+.person-content .person-info .person-info-input{
+	width: 60%;
+	display: none;
+	/*border: 1px solid black;*/
+	height: 22px;
+	float: left;
+}
+
+.person-content .person-info .person-info-edit{
+	width: 10%;
+	text-align: right;
+	cursor: Pointer;
+	color: rgb(51, 154, 229);
+	display: block;
+}
+
+.person-content .person-info .person-info-certain{
+	width: 10%;
+	text-align: right;
+	cursor: Pointer;
+	color: rgb(51, 154, 229);
+	display: none;
+}
+
+.person-content .person-info #person-pass-change{
+	color: rgb(137, 147, 152);
+	width: 10%;
+	text-align: right;
+	cursor: not-allowed;
+}
+
+.person-content .person-info .person-info-content .person-info-content-pass{
+	display: block;
+}
+
+.person-content .person-info .person-info-input .person-info-input-pass{
+	display: none;
+}
+
+.click-disable{
+	pointer-events: none;
+}
+
+.person-info .person-info-content.person-info-none{
+	color: rgb(234, 95, 37);
+}
+
+/*.person-content .person-login-info{
+	padding: 5px 0;
+	height: 24px;
+	line-height: 24px;
+	border-bottom: 1px solid #ddd;
+}*/
+
+.person-content .person-info .person-info-name .fa{
+	color: rgb(51, 154, 229);
+	margin-left: 5px;
+}
+
+.person-content table{
+	margin-top: 10px;
+	text-align: center;
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.person-content table th{
+	background-color: rgb(242, 242, 242);
+}
+
+table, th, td{
+	border: 1px solid rgb(213, 213, 213);
+	height: 40px;
+	color: rgb(94, 94, 94);
+}

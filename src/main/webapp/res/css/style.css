@@ -1,0 +1,139 @@
+.side-bar{
+	height: 100%;
+	width: 18%;
+	border-right: 1px solid rgb(224, 224, 224);
+	padding: 20px;
+	float: left;
+	overflow-y: auto;
+	text-align: center;
+	color: rgb(149, 149, 149);
+}
+
+.side-bar .head-portrait{
+	margin-top: 30px;
+}
+
+.side-bar .head-portrait::after{
+	content: "";
+	display: block;
+	border-bottom: 3px dashed rgb(149, 149, 149);
+	margin: 10px auto;
+}
+
+.side-bar img{
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	-ms-border-radius: 50%;
+	-o-border-radius: 50%;
+	border-radius: 50%;
+	width: 120px;
+	height: 120px;
+	display: block;
+	margin: 0 auto;
+}
+
+.side-bar span{
+	display: block;
+	margin: 10px auto;
+	font-size: 25px;
+	color: black;
+}
+
+.side-bar .side-nav{
+	padding: 20px;
+	font-size: 20px;
+}
+
+.side-bar .side-nav li{
+	margin-bottom: 30px;
+	position: relative;
+}
+
+.side-bar a{
+	color: rgb(149, 149, 149);
+	transition: color 0.1s ease 0s;
+}
+
+.side-bar .side-nav a:hover{
+	color: black;
+}
+
+.side-bar .side-nav a::after{
+	content: "";
+	position: absolute;
+	width: 0px;
+	height: 3px;
+	background-color: #00B4EF;
+	left: 50%;
+	transform: translateX(-50%);
+	bottom: -5px;
+	transition: width 0.1s ease 0s;
+}
+
+.side-bar .side-nav a:hover::after{
+	width: 60%;
+}
+
+.li-active{
+	color: black !important;
+}
+
+.li-active::after{
+	width: 60% !important;
+}
+
+.container{
+	overflow-y: auto;
+	float: left;
+	height: 100%;
+	width: 82%;
+}
+
+.container-title{
+	color: rgb(149, 149, 149);
+	padding: 10px;
+	overflow: hidden;
+	position: relative;
+}
+
+.all-width{
+	width: 100% !important;
+}
+
+.container-title a{
+	color: rgb(149, 149, 149);
+	font-size: 18px;
+}
+
+.container-title a:hover{
+	color: black;
+}
+
+.container-title a:first-child{
+	float: left;
+}
+
+.container-title a:last-child{
+	float: right;
+}
+
+.container-title .container-name{
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+	visibility: hidden;
+}
+
+.container-title .container-name:hover{
+	visibility: visible !important;
+}
+
+.container-title{
+	border-bottom: 1px solid rgb(224, 224, 224);
+}
+
+.container .container-content{
+	width: 70%;
+	height: calc(100% - 46px);
+	margin: 0 auto;
+}

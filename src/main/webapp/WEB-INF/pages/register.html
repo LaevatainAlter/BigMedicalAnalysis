@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>注册页面</title>
+	<link rel="stylesheet" href="res/css/font-awesome.min.css"/>
+	<link rel="stylesheet" href="res/css/bootstrap.min.css"/>
+	<link rel="stylesheet" href="res/css/reset.css"/>
+	<link rel="stylesheet" href="res/css/login.css"/>
+	<script src="res/js/angular-1.6.1.min.js"></script>
+	<script src="res/js/login.js"></script>
+</head>
+<body ng-app="registerApp">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-offset-3 col-md-6">
+				<form class="form-horizontal" ng-controller="registerCtrl">
+					<span class="heading">用户注册</span>
+					<div class="form-group">
+						<input type="text" class="form-control" id="registerUser" placeholder="用户名或电子邮件" ng-model="username"/>
+						<i class="fa fa-user"></i>
+						<span class="error" ng-show="error.errorField == 'username'">*{{error.errorMsg}}</span>
+					</div>
+					<div class="form-group">
+						<input type="password" class="form-control" id="registerPass" placeholder="密码 不低于6位" ng-model="password"/>
+						<i class="fa fa-lock"></i>
+						<span class="error" ng-show="error.errorField == 'password'">*{{error.errorMsg}}</span>
+					</div>
+					<div class="form-group">
+						<input type="password" class="form-control" id="passRepeat" placeholder="重复密码" ng-model="repeatPass"/>
+						<i class="fa fa-lock"></i>
+						<span class="error" ng-show="error.errorField == 'repeat-password'">*{{error.errorMsg}}</span>
+					</div>
+					<div class="form-group">
+						<div class="main-veri">
+							<input type="text" class="form-control" id="registerVeri" placeholder="验证码" ng-model="usercode"/>
+							<i class="fa fa-key"></i>
+						</div>
+						<img src="kaptcha" alt="验证码" onclick="this.src='kaptcha'">
+						<span class="error" ng-show="error.errorField == 'code'">*{{error.errorMsg}}</span>
+					</div>
+					<div class="form-group">
+						<div class="main-checkbox">
+							<input type="checkbox" value="None" id="toRegister" name="toRegister"/>
+							<label for="toRegister"></label>
+						</div>
+						<span class="text">直接登录</span>
+						<button class="btn btn-default" ng-click="toRegister(username, password, repeatPass, usercode)">
+							注册
+						</button>
+					</div>
+					<div class="main-other">
+						<a href="login">登录</a> | <a href="#">游客登录</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
