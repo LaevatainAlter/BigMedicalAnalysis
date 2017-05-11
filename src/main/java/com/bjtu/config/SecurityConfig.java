@@ -1,17 +1,18 @@
 package com.bjtu.config;
 
+import com.bjtu.bean.LoginLog;
 import com.bjtu.bean.UserBean;
+import com.bjtu.dao.LoginLogDAO;
 import com.bjtu.dao.UserDAO;
 import com.bjtu.util.GlobalVariableHolder;
+import com.bjtu.util.IPHelper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.code.kaptcha.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
-import org.springframework.security.authentication.encoding.MessageDigestPasswordEncoder;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -25,16 +26,19 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.csrf.CsrfFilter;
+import org.springframework.security.web.header.HeaderWriter;
+import org.springframework.security.web.header.HeaderWriterFilter;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+import org.springframework.web.filter.CharacterEncodingFilter;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,6 +55,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements Auth
 
     @Autowired
     UserDAO userDAO;
+
+    @Autowired
+    LoginLogDAO loginLogDAO;
 
     private static Md5PasswordEncoder passwordEncoder = new Md5PasswordEncoder();
 
@@ -86,12 +93,45 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements Auth
         http.rememberMe().tokenValiditySeconds(1209600)
                 .and().rememberMe().rememberMeParameter("remember-me");
         http.csrf().disable();
+
+        CharacterEncodingFilter encodeFilter = new CharacterEncodingFilter();
+        encodeFilter.setEncoding("utf-8");
+        encodeFilter.setForceEncoding(true);
+        http.addFilterBefore(encodeFilter, CsrfFilter.class); // 放在csrf filter前面
+        http.headers().disable();
+        HeaderWriter headerWriter = new HeaderWriter() {
+            public void writeHeaders(HttpServletRequest request, HttpServletResponse response) {
+                response.setHeader("Cache-Control", "no-cache, no-store, max-age=0, must-revalidate");
+                response.setHeader("Expires", "0");
+                response.setHeader("Pragma", "no-cache");
+                response.setHeader("X-Frame-Options", "SAMEORIGIN");
+                response.setHeader("X-XSS-Protection", "1; mode=block");
+                response.setHeader("x-content-type-options", "nosniff");
+                response.setHeader("Content-type", "text/html;charset=UTF-8");
+            }
+        };
+        List<HeaderWriter> headerWriterFilterList = new ArrayList<HeaderWriter>();
+        headerWriterFilterList.add(headerWriter);
+        HeaderWriterFilter headerFilter = new HeaderWriterFilter(headerWriterFilterList);
+        http.addFilter(headerFilter);
     }
 
     @Override
+    @Transactional
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+        UserBean ub = userDAO.findUserById(GlobalVariableHolder.getCurrentUserId());
+        try {
+            LoginLog loginLog = new LoginLog();
+            loginLog.setRecordIP(IPHelper.getRealIp(request));
+            loginLog.setRecordPosition(IPHelper.getIpLocation(loginLog.getRecordIP()));
+            loginLog.setUserBean(ub);
+            loginLogDAO.saveLoginLog(loginLog);
+        }catch (Exception e){
+            logger.error(e.getLocalizedMessage());
+        }
         ObjectMapper om = new ObjectMapper();
         Map json = new HashMap();
+
         json.put("status",true);
         response.getWriter().write(om.writeValueAsString(json));
     }

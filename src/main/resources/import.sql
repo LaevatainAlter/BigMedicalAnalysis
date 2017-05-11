@@ -1,0 +1,2 @@
+INSERT INTO medical.user (create_time, enabled, nickname, password, role, username) VALUES ('2017-04-21', true, '', 'e10adc3949ba59abbe56e057f20f883e', 'ROLE_USER', '343750470@qq.com');
+INSERT INTO medical.userinfo (user_birth, user_hospital, user_phone, user_sex, uid) VALUES (null, null, null, null, 1);

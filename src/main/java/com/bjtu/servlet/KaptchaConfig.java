@@ -2,7 +2,6 @@ package com.bjtu.servlet;
 
 import com.google.code.kaptcha.servlet.KaptchaServlet;
 
-import javax.jws.WebParam;
 import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
 
@@ -16,5 +15,6 @@ import javax.servlet.annotation.WebServlet;
                 @WebInitParam(name = "kaptcha.obscurificator.impl", value = "com.google.code.kaptcha.impl.ShadowGimpy")
         })
 public class KaptchaConfig extends KaptchaServlet {
+
 
 }

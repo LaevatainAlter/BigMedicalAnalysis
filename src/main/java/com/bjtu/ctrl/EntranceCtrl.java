@@ -1,27 +1,21 @@
 package com.bjtu.ctrl;
 
-import com.bjtu.bean.UserBean;
 import com.bjtu.service.UserService;
-import com.bjtu.util.IPHelper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.code.kaptcha.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.encoding.MessageDigestPasswordEncoder;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -34,10 +28,9 @@ public class EntranceCtrl {
     private static Logger logger = LoggerFactory.getLogger(EntranceCtrl.class);
 
     @GetMapping("/login")
+    @PreAuthorize("permitAll()")
     public String showloginPage(HttpServletRequest request) {
-
-        String ip = IPHelper.getRealIp(request);
-
+        request.getSession(true);
         return "index";
     }
 
@@ -59,6 +52,12 @@ public class EntranceCtrl {
             json = userService.processRegister(map);
         }
         return json;
+    }
+
+
+    @GetMapping("*")
+    public String defaultPage(){
+        return "redirect:/home";
     }
 
 

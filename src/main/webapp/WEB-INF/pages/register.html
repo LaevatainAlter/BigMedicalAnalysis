@@ -14,29 +14,50 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-offset-3 col-md-6">
-				<form class="form-horizontal" ng-controller="registerCtrl">
+				<form name="registerForm" class="form-horizontal" ng-controller="registerCtrl" ng-submit="toRegister(username, password, repeatPass, usercode)" autocomplete="off" novalidate ng-cloak>
 					<span class="heading">用户注册</span>
 					<div class="form-group">
-						<input type="text" class="form-control" id="registerUser" placeholder="用户名或电子邮件" ng-model="username"/>
+						<input type="text" name="username" class="form-control" placeholder="用户名或电子邮件" ng-model="username" ng-pattern="/\w+\@\w+(\.\w+)*\.(com|net|edu|cn|info|gov)$/" required/>
 						<i class="fa fa-user"></i>
 						<span class="error" ng-show="error.errorField == 'username'">*{{error.errorMsg}}</span>
+						<span class="error" ng-show="registerForm.username.$error.required && registerForm.username.$dirty && registerForm.username.$touched">
+							*用户名不能为空
+						</span>
+						<span class="error" ng-show="registerForm.username.$error.pattern && registerForm.username.$dirty && registerForm.username.$touched">
+							*邮箱格式错误
+						</span>
 					</div>
 					<div class="form-group">
-						<input type="password" class="form-control" id="registerPass" placeholder="密码 不低于6位" ng-model="password"/>
+						<input type="password" name="password" class="form-control" placeholder="密码 不低于6位" ng-model="password" ng-minlength=6 required/>
 						<i class="fa fa-lock"></i>
 						<span class="error" ng-show="error.errorField == 'password'">*{{error.errorMsg}}</span>
+						<span class="error" ng-show="registerForm.password.$error.required && registerForm.password.$dirty && registerForm.password.$touched">
+							*密码不能为空
+						</span>
+						<span class="error" ng-show="registerForm.password.$error.minlength && registerForm.password.$dirty && registerForm.password.$touched">
+							*密码不能低于6位
+						</span>
 					</div>
 					<div class="form-group">
-						<input type="password" class="form-control" id="passRepeat" placeholder="重复密码" ng-model="repeatPass"/>
+						<input type="password" name="repeatPass" class="form-control" placeholder="重复密码" ng-model="repeatPass" ng-minlength=6 pass-match="registerForm.password" required/>
 						<i class="fa fa-lock"></i>
 						<span class="error" ng-show="error.errorField == 'repeat-password'">*{{error.errorMsg}}</span>
+						<span class="error" ng-show="registerForm.repeatPass.$error.required && registerForm.repeatPass.$dirty && registerForm.repeatPass.$touched">
+							*密码不能为空
+						</span>
+						<span class="error" ng-show="registerForm.repeatPass.$error.minlength && registerForm.repeatPass.$dirty && registerForm.repeatPass.$touched">
+							*密码不能低于6位
+						</span>
+						<span class="error" ng-show="(!registerForm.repeatPass.$error.required) && (!registerForm.repeatPass.$error.minlength) && registerForm.repeatPass.$error.passdiff && registerForm.repeatPass.$dirty && registerForm.repeatPass.$touched">
+							*密码不一致
+						</span>
 					</div>
 					<div class="form-group">
 						<div class="main-veri">
-							<input type="text" class="form-control" id="registerVeri" placeholder="验证码" ng-model="usercode"/>
+							<input type="text" name="usercode" class="form-control" placeholder="验证码" ng-model="usercode" ng-maxlength=4 ng-minlength=4 required/>
 							<i class="fa fa-key"></i>
 						</div>
-						<img src="kaptcha" alt="验证码" onclick="this.src='kaptcha'">
+						 <img src="kaptcha" alt="验证码" onclick="this.src='kaptcha'">
 						<span class="error" ng-show="error.errorField == 'code'">*{{error.errorMsg}}</span>
 					</div>
 					<div class="form-group">
@@ -45,12 +66,12 @@
 							<label for="toRegister"></label>
 						</div>
 						<span class="text">直接登录</span>
-						<button class="btn btn-default" ng-click="toRegister(username, password, repeatPass, usercode)">
+						<button type="submit" class="btn btn-default" ng-disabled="registerForm.$invalid">
 							注册
 						</button>
 					</div>
 					<div class="main-other">
-						<a href="login">登录</a> | <a href="#">游客登录</a>
+						<a href="#">登录</a> | <a href="#">游客登录</a>
 					</div>
 				</form>
 			</div>

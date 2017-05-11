@@ -1,17 +1,52 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
 	<meta charset="UTF-8">
 	<title>个人资料界面</title>
 	<link rel="stylesheet" href="../res/css/reset.css"/>
 	<link rel="stylesheet" href="../res/css/font-awesome.min.css"/>
 	<link rel="stylesheet" href="../res/css/content.css"/>
-	<script src="../res/js/jquery-3.1.1.min.js"></script>
-	<script src="../res/js/angular-1.6.1.min.js"></script>
-	<script src="../res/js/info.js"></script>
+	<!-- <script src="../res/js/jquery-3.1.1.min.js"></script>
+	<script src="../res/js/angular-1.6.1.min.js"></script> -->
+	<script>
+		$(document).ready(function(){
+			$('.person-li').each(function(index){//切换个人信息的导航
+				$(this).click(function(){
+					$('.person-nav').removeClass('change-person-li0').removeClass('change-person-li1').removeClass('change-person-li2').addClass('change-person-li' + index);
+					$('.person-li').children().removeClass('active');
+					$('.person-li').eq(index).children().addClass('active');
+					$('#person-content0').hide();
+					$('#person-content1').hide();
+					$('#person-content2').hide();
+					$('#person-content' + index).show();
+				});
+			});
+			$('.person-info-edit').each(function(index){
+				$(this).click(function(){
+					$('.person-info-content').css('display', 'block');
+					$('.person-info-edit').css('display', 'block');
+					$('.person-info-input').css('display', 'none');
+					$('.person-info-certain').css('display', 'none');
+					$('.person-info-content').eq(index).css('display', 'none');
+					$('.person-info-edit').eq(index).css('display', 'none');
+					$('.person-info-input').eq(index).css('display', 'block');
+					$('.person-info-certain').eq(index).css('display', 'block');
+				});
+			});
+			$('.person-info-certain').each(function(index){
+				$(this).click(function(){
+					$('.person-info-content').eq(index).css('display', 'block');
+					$('.person-info-edit').eq(index).css('display', 'block');
+					$('.person-info-input').eq(index).css('display', 'none');
+					$('.person-info-certain').eq(index).css('display', 'none');
+				});
+			});
+		});
+	</script>
 </head>
-<body ng-app="infoApp">
-	<div class="person-container" ng-controller="infoCtrl" th:fragment="container">
+<!-- <body ng-app="infoApp"> -->
+<body>
+	<div class="person-container" ng-controller="infoCtrl">
 		<div class="person-head-portrait">
 			<img src="../upload/Alice/image/portrait.png" alt="">
 			<div class="change-head-portrait">
@@ -31,7 +66,7 @@
 				</li>
 			</ul>
 		</nav>
-		<div class="person-content">
+		<div class="person-content" ng-cloak>
 			<div id="person-content0">
 				<div class="person-info">
 					<span class="person-info-name">真实姓名</span>
@@ -49,8 +84,8 @@
 				</div>
 				<div class="person-info">
 					<span class="person-info-name">邮箱</span>
-					<span class="person-info-content">{{userInfo.userEmail || "请添加信息"}}</span>
-					<span class="person-info-edit click-disable"></span>
+					<span class="person-info-content-email">{{userInfo.userEmail || "请添加信息"}}</span>
+					<!-- <span class="person-info-edit click-disable"></span> -->
 				</div>
 				<div class="person-info">
 					<span class="person-info-name">性别</span>
@@ -71,11 +106,10 @@
 				<div class="person-info">
 					<span class="person-info-name">出生日期</span>
 					<span class="person-info-content">{{userInfo.userBirth || "请添加信息"}}</span>
-					<input type="text" class="person-info-input" ng-model="userInfo.userBirth"/>
-					<!-- <div class="person-info-input">
-						<input type="date" min="1900-01-12" max="2017-4-20"/>
-						<select name="" id=""></select>
-					</div> -->
+					<div class="person-info-input" time-change birth="userInfo.userBirth">
+
+					</div>
+					<!-- <input type="text" class="person-info-input" ng-model="userInfo.userBirth"/> -->
 					<span class="person-info-edit">修改</span>
 					<span class="person-info-certain" ng-click="changePerInfo('userBirth', userInfo.userBirth)">确定</span>
 				</div>

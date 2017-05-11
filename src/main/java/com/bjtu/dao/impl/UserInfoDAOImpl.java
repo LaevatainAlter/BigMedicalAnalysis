@@ -27,7 +27,6 @@ public class UserInfoDAOImpl implements UserInfoDAO {
     @Override
     @Transactional
     public void saveUserInfoBean(UserInfoBean uib) {
-         entityManager.persist(uib);
-
+         entityManager.merge(uib);
     }
 }

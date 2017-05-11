@@ -1,11 +1,6 @@
 package com.bjtu.dao;
 
 import com.bjtu.bean.UserBean;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
-
-import java.util.List;
 /**
  * Created by Gimling on 2017/4/8.
  */
@@ -38,5 +33,7 @@ public interface UserDAO{
 
 
     UserBean findUserById(Long id);
+
+    void update(UserBean ub);
 
 }

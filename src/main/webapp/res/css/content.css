@@ -143,6 +143,12 @@
 	display: block;
 }
 
+.person-content .person-info .person-info-content-email{
+	width: 60%;
+	color: rgb(137, 147, 152);
+	display: block;
+}
+
 .person-content .person-info .person-info-input{
 	width: 60%;
 	display: none;
@@ -213,8 +219,106 @@
 	background-color: rgb(242, 242, 242);
 }
 
-table, th, td{
+.person-content table, .person-content th, .person-content td{
 	border: 1px solid rgb(213, 213, 213);
 	height: 40px;
 	color: rgb(94, 94, 94);
+}
+
+.data-show-container {
+	height: 100%;
+}
+
+.data-show-container > div {
+	margin-bottom: 20px;
+}
+
+.data-show-container table {
+	width: 80%;
+	text-align: center;
+	border-collapse: collapse;
+	margin: 20px auto;
+}
+
+.data-show-container table, .data-show-container th, .data-show-container td{
+	border: 1px solid #ddd;
+	padding: 5px;
+}
+
+.data-show-container tr:not(:first-child):hover{
+	background: rgb(242, 242, 242);
+}
+
+#data-show-heart-rate th:nth-child(1), #data-show-poincare th:nth-child(1){
+	width: 40%;
+}
+
+#data-show-heart-rate th:nth-child(2), #data-show-poincare th:nth-child(2){
+	width: 20%;
+}
+
+#data-show-heart-rate th:nth-child(3), #data-show-poincare th:nth-child(3){
+	width: 20%;
+}
+
+#data-show-heart-rate th:nth-child(4), #data-show-poincare th:nth-child(4){
+	width: 20%;
+}
+
+#data-show-evaluation th:first-child{
+	width: 50%;
+}
+
+#data-show-suggest th:nth-child(1) {
+	width: 30%;
+}
+
+#data-show-suggest th:nth-child(2) {
+	width: 30%;
+}
+
+#data-show-suggest th:nth-child(3) {
+	width: 40%;
+}
+
+#data-show-suggest tr td:last-child{
+	text-align: left;
+}
+
+.data-show-container .data-show-chart{
+	width: 100%;
+}
+
+.data-show-container h4{
+	margin-left: 10px;
+	color: rgb(109, 109, 109);
+}
+
+.data-list-container{
+	height: 100%;
+	padding-top: 40px;
+}
+
+.data-list-container .list{
+	/*margin: 20px;*/
+	padding: 15px;
+}
+
+.data-list-container .list:hover{
+	/*margin: 20px;*/
+	padding: 15px;
+	color: #00B4EF;
+	cursor: Pointer;
+}
+
+.data-list-container .list:not(:last-of-type){
+	border-bottom: 1px solid black;
+}
+
+.data-list-container .list span{
+	
+}
+
+.data-list-container .list i{
+	float: right;
 }

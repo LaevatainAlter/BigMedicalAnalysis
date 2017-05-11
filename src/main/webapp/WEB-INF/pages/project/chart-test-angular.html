@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="../res/js/d3.v4.min.js"></script>
+	<script src="../res/js/angular-1.6.1.min.js"></script>
+	<script src="../res/js/chart.js"></script>
+	<style>
+		html, body{
+			width: 100%;
+			height: 100%;
+		}
+		svg{
+			margin: 0 auto;
+		}
+	</style>
+</head>
+<body ng-app="d3App" ng-controller="d3Ctrl">
+	<div class="polyline">
+		
+	</div>
+	<div class="brush">
+		
+	</div>
+	<label for="filterNum">过滤比例</label>
+	<input id="filterNum" type="number" max="20" min="1" ng-model="filterParam" ng-change="filterParamChg(filterParam)"/>
+</body>
+</html>

@@ -7,9 +7,7 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Map;
 
@@ -195,7 +193,7 @@ public class AddressUtils {
         }
         System.out.println(address);*/
         // 输出结果为：广东省,广州市,越秀区
-        String ip = "127.0.0.1                                                              ";
+        String ip = "125.70.11.136                                                              ";
         String urlStr = "http://ip.taobao.com/service/getIpInfo.php";
         ObjectMapper om = new ObjectMapper();
         Map map = om.readValue(new URL(urlStr+"?ip="+ip),Map.class);

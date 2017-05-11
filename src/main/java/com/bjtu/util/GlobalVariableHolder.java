@@ -20,6 +20,7 @@ public  class GlobalVariableHolder {
 
 
     static public HttpServletRequest getCurrentRequest(){
+
         return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
     }
 

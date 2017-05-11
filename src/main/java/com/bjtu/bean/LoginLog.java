@@ -20,13 +20,13 @@ public class LoginLog {
 
     @Column
     @Temporal(TemporalType.TIMESTAMP)
-    private Date time = new Date();
+    private Date recordTime = new Date();
 
     @Column(length = 20)
-    private String ip;
+    private String recordIP;
 
     @Column(length = 50)
-    private String location;
+    private String recordPosition;
 
     public Long getId() {
         return id;
@@ -44,27 +44,27 @@ public class LoginLog {
         this.userBean = userBean;
     }
 
-    public Date getTime() {
-        return time;
+    public Date getRecordTime() {
+        return recordTime;
     }
 
-    public void setTime(Date time) {
-        this.time = time;
+    public void setRecordTime(Date recordTime) {
+        this.recordTime = recordTime;
     }
 
-    public String getIp() {
-        return ip;
+    public String getRecordIP() {
+        return recordIP;
     }
 
-    public void setIp(String ip) {
-        this.ip = ip;
+    public void setRecordIP(String recordIP) {
+        this.recordIP = recordIP;
     }
 
-    public String getLocation() {
-        return location;
+    public String getRecordPosition() {
+        return recordPosition;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setRecordPosition(String recordPosition) {
+        this.recordPosition = recordPosition;
     }
 }

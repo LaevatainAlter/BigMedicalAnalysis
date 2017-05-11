@@ -1,12 +1,7 @@
 package com.bjtu.bean;
 
-import org.hibernate.annotations.*;
-
 import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -42,10 +37,13 @@ public class UserBean implements Serializable {
     @Column
     private String role = "ROLE_USER";
 
-    @OneToOne(targetEntity = UserInfoBean.class,mappedBy = "userBean",fetch = FetchType.LAZY)
+    @OneToOne(targetEntity = UserInfoBean.class,mappedBy = "userBean")
     private UserInfoBean userInfoBean;
 
-    @OneToMany(targetEntity = LoginLog.class,mappedBy = "userBean")
+
+    @OneToMany(targetEntity = LoginLog.class,mappedBy = "userBean",fetch = FetchType.LAZY)
+    @OrderBy("id desc ")
+    @Size(max=10)
     private List<LoginLog> loginLog = new ArrayList<LoginLog>();
 
     public Long getId() {
@@ -119,5 +117,10 @@ public class UserBean implements Serializable {
 
     public void setLoginLog(List<LoginLog> loginLog) {
         this.loginLog = loginLog;
+    }
+
+    @Override
+    public int hashCode() {
+        return this.id.hashCode();
     }
 }

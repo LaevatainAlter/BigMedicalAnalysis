@@ -2,6 +2,9 @@ package com.bjtu.dao.impl;
 
 import com.bjtu.bean.UserBean;
 import com.bjtu.dao.UserDAO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +18,8 @@ import java.util.List;
  */
 @Repository
 public class UserDAOImpl implements UserDAO {
+
+    private final static Logger logger = LoggerFactory.getLogger(UserDAOImpl.class);
 
     @PersistenceContext
     EntityManager entityManager;
@@ -64,7 +69,13 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
+    @Cacheable(value = "userCache",key = "#id")
     public UserBean findUserById(Long id) {
         return entityManager.find(UserBean.class,id);
+    }
+
+    @Override
+    public void update(UserBean ub) {
+        entityManager.merge(ub);
     }
 }

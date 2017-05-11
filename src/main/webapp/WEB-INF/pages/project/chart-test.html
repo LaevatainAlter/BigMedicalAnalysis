@@ -3,20 +3,23 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Document</title>
-	<script src="d3.v4.min.js"></script>
+	<script src="../res/js/d3.v4.min.js"></script>
 	<style>
 		html, body{
 			width: 100%;
 			height: 100%;
 		}
 		svg{
-			background: lightgrey;
+			/*background: lightgrey;*/
 			margin: 0 auto;
 		}
 	</style>
 </head>
 <body>
-	<div class="storeSvg">
+	<div class="polyline">
+		
+	</div>
+	<div class="brush">
 		
 	</div>
 	<script>
@@ -29,68 +32,78 @@
 			}
 			xmlhttp.onreadystatechange=function(){
 				if(xmlhttp.readyState==4 && xmlhttp.status==200){
-					var dataset = JSON.parse(xmlhttp.responseText);
-					// console.log(xmlhttp.responseText);
-					var height = 600;
-					var width = 1200;
-					var svg = d3.select('.storeSvg')
-								.append('svg')
-								.attr('width', width)
-								.attr('height', height);
-					var xScale = d3.scaleLinear()
-							.domain([0, dataset.length - 1])
-							.range([0, 1150]);
-					var xAxis = d3.axisBottom(xScale).ticks(15);
-					var gxAxis = svg.append('g')
-									.attr('transform', 'translate(30, 580)');
-					xAxis(gxAxis);
+					var dataset = JSON.parse(xmlhttp.responseText);//d.minute,d.ecgdata
+					
+					var minEcg = d3.min(dataset, function(d){
+						return d.ecgdata;
+					});
+					var maxEcg = d3.max(dataset, function(d){
+						return d.ecgdata;
+					});
+					var maxMinute = dataset[dataset.length - 1].minute;
 
+					dataset = dataset.filter(function(d){
+						return ((d.minute % 10) == 0);
+					});
+
+					var width = 1300;
+					var height = 600;
+					var padding = { top: 50, right: 50, bottom: 50, left: 50 };
+
+					var xScale = d3.scaleLinear()
+									.domain([0, maxMinute])
+									.rangeRound([0, width - padding.right - padding.left]);
 					var yScale = d3.scaleLinear()
-									.domain([150, 30])
-									.range([0, 550]);
-					var yAxis = d3.axisLeft(yScale).ticks(15);
-					var gyAxis = svg.append('g')
-									.attr('transform', 'translate(30, 30)');
-					yAxis(gyAxis);
-					var circle = svg.selectAll('circle')
-									.data(dataset)
-									.enter()
-									.append('circle')
-									.attr('fill', 'black')
-									.attr('cx', function(d){
-										return xScale(d.minute) + 30;
-									})
-									.attr('cy', function(d){
-										return yScale(d.ecgdata) + 30;
-									})
-									.attr('r', 1);
-					// var line = d3.line()
-					// 			.x(function(d){
-					// 				return xScale(d.minute) + 30;
-					// 			})
-					// 			.y(function(d){
-					// 				return yScale(d.ecgdata) + 30;
-					// 			});
-					// svg.append('path')
-				 //        .attr('class', 'line')
-				 //        .attr('d', line(dataset));
-			        var line = d3.line()
-			        			.x(function(d){
-			        				return d.minute + 30;
-			        			})
-			        			.y(function(d){
-			        				return d.ecgdata + 30;
-			        			});
-					svg.selectAll('path').data(dataset)
-							.enter()
-							.append('path')
-							.attr('d',function(d){
-								return line(d)
-							})
-							.style({
-								fill:'none',
-								stroke:'#000'
-							});
+									.domain([minEcg, maxEcg])
+									.rangeRound([height - padding.top - padding.bottom, 0]);
+
+					var svg = d3.select('.polyline')
+								.append('svg')
+								.attr('width', width + 'px')
+								.attr('height', height + 'px');
+					var xAxis = d3.axisBottom()
+									.scale(xScale)
+									// .ticks(12)
+									;
+					var yAxis = d3.axisLeft()
+									.scale(yScale)
+									// .ticks(12)
+									;
+
+					svg.append('g')
+						.attr('class', 'axis')
+						.attr('transform', 'translate(' + padding.left + ', ' + (height - padding.bottom) + ')')
+						.call(xAxis);
+					svg.append('g')
+						.attr('class', 'axis')
+						.attr('transform', 'translate(' + padding.left + ', ' + padding.top + ')')
+						.call(yAxis);
+
+					var linePath = d3.line()
+									.x(function(d){ return xScale(d.minute); })
+									.y(function(d){ return yScale(d.ecgdata); })
+									.curve(d3.curveCatmullRom.alpha(0.5))
+									;
+
+					svg.append('g')
+						.append('path')
+						.attr('class', 'line-path')
+						.attr('transform', 'translate(' + padding.left + ',' + padding.top + ')')
+						.attr('d', linePath(dataset))
+					  	.attr('fill', 'none')
+						.attr('stroke-width', 1)
+						.attr('stroke', 'green');
+
+					svg.append('g')
+					  .selectAll('circle')
+					  .data(dataset)
+					  .enter()
+					  .append('circle')
+					  .attr('r', 3)
+					  .attr('transform', function(d){
+					    return 'translate(' + (xScale(d.minute) + padding.left) + ',' + (yScale(d.ecgdata) + padding.top) + ')'
+					  })
+					  .attr('fill', 'green');
 				}
 			}
 			xmlhttp.open('post', '/toQuery' ,true);

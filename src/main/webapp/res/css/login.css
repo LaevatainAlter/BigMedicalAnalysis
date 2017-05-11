@@ -185,9 +185,21 @@ html, body{
 .form-horizontal .error{
     color: red;
     position: absolute;
-    top: 45px;
-    left: 55px;
+    top: 42px;
+    left: 60px;
     letter-spacing: 8px;
     visibility: visible;
     /*visibility: hidden;*/
+}
+
+.form-horizontal .btn-default[disabled]:hover{
+    background-color: rgb(0, 180, 239);
+}
+
+.form-horizontal .ng-valid.ng-dirty{
+    background-color: #d7f7d7;
+}
+
+.form-horizontal .ng-invalid.ng-dirty{
+    background-color: #fcd4da;
 }

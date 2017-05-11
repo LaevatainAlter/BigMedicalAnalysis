@@ -1,11 +1,8 @@
 package com.bjtu.bean;
 
-import org.hibernate.annotations.*;
-import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -21,7 +18,11 @@ public class UserInfoBean implements Serializable{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    //性别
+
+    /**
+     *性别
+     *false---男,true---女
+     */
     @Column
     private Boolean userSex;
 
@@ -37,14 +38,12 @@ public class UserInfoBean implements Serializable{
 
     //所属医院
     @Column(length = 20)
-    private String userHosipital;
+    private String userHospital;
 
 
     @OneToOne(targetEntity = UserBean.class)
     @JoinColumn(name = "uid",referencedColumnName = "id",unique = true)
     UserBean userBean;
-
-
 
     public Long getId() {
         return id;
@@ -79,12 +78,12 @@ public class UserInfoBean implements Serializable{
     }
 
 
-    public String getUserHosipital() {
-        return userHosipital;
+    public String getUserHospital() {
+        return userHospital;
     }
 
-    public void setUserHosipital(String userHosipital) {
-        this.userHosipital = userHosipital;
+    public void setUserHosipital(String userHospital) {
+        this.userHospital = userHospital;
     }
 
     public UserBean getUserBean() {
