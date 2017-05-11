@@ -16,3 +16,6 @@ Thumbs.db
 .classpath
 .settings
 .metadata
+
+# DB conf
+/src/main/resources/application.properties
