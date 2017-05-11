@@ -99,16 +99,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements Auth
         encodeFilter.setForceEncoding(true);
         http.addFilterBefore(encodeFilter, CsrfFilter.class); // 放在csrf filter前面
         http.headers().disable();
-        HeaderWriter headerWriter = new HeaderWriter() {
-            public void writeHeaders(HttpServletRequest request, HttpServletResponse response) {
-                response.setHeader("Cache-Control", "no-cache, no-store, max-age=0, must-revalidate");
-                response.setHeader("Expires", "0");
-                response.setHeader("Pragma", "no-cache");
-                response.setHeader("X-Frame-Options", "SAMEORIGIN");
-                response.setHeader("X-XSS-Protection", "1; mode=block");
-                response.setHeader("x-content-type-options", "nosniff");
-                response.setHeader("Content-type", "text/html;charset=UTF-8");
-            }
+        HeaderWriter headerWriter = (request, response) -> {
+            response.setHeader("Cache-Control", "no-cache, no-store, max-age=0, must-revalidate");
+            response.setHeader("Expires", "0");
+            response.setHeader("Pragma", "no-cache");
+            response.setHeader("X-Frame-Options", "SAMEORIGIN");
+            response.setHeader("X-XSS-Protection", "1; mode=block");
+            response.setHeader("x-content-type-options", "nosniff");
+            response.setHeader("Content-type", "text/html;charset=UTF-8");
+            request.getSession(true);
         };
         List<HeaderWriter> headerWriterFilterList = new ArrayList<HeaderWriter>();
         headerWriterFilterList.add(headerWriter);
