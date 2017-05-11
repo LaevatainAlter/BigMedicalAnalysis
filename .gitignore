@@ -11,5 +11,3 @@ target/
 ehthumbs.db
 Thumbs.db
 
-# DataBase Configuration
-/src/main/resources/application.properties
