@@ -11,3 +11,8 @@ target/
 ehthumbs.db
 Thumbs.db
 
+# Eclipse files
+.project
+.classpath
+.settings
+.metadata
