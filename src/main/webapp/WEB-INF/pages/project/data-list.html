@@ -10,8 +10,12 @@
 <body>
 	<!-- <div class="delete-container">
 		<div class="delete-content"> -->
-			<div class="data-list-container">
-				<div class="list">
+			<div class="data-list-container" ng-controller="listCtrl">
+				<div class="list" ng-repeat="item in historyList">
+					<span>{{item.historyTime + item.historyName}}</span>
+					<i class="fa fa-angle-right"></i>
+				</div>
+				<!-- <div class="list">
 					<span>2017-4-10-13-30-20第十个名字</span>
 					<i class="fa fa-angle-right"></i>
 				</div>
@@ -50,7 +54,7 @@
 				<div class="list">
 					<span>2017-4-1-13-30-20第一个名字</span>
 					<i class="fa fa-angle-right"></i>
-				</div>
+				</div> -->
 			</div>
 		<!-- </div>
 	</div> -->

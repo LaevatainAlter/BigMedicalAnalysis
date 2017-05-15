@@ -15,6 +15,8 @@
 	<!-- <div class="delete-container">
 		<div class="delete-content"> -->
 			<div class="data-show-container" ng-controller="dataCtrl">
+				<input type="file" file-model="fileToUpload"/>
+				<button type="button" ng-click="sendFile()">提交</button>
 				<div id="data-show-heart-rate">
 					<h2>心率变化</h2>
 					<div class="data-show-chart">
@@ -29,44 +31,44 @@
 						</tr>
 						<tr>
 							<td>睡眠累计时间(T)</td>
-							<td>1.52</td>
-							<td><i class="fa fa-arrow-down"></i></td>
+							<td>{{analyze.rate.t.value || ''}}</td>
+							<td><i class="fa" ng-class="(analyze.rate.t.prompt==1) ? 'fa-arrow-up' : (analyze.rate.t.prompt==-1) ? 'fa-arrow-down' : ''"></i></td>
 							<td>5.03-9.61</td>
 						</tr>
 						<tr>
 							<td>睡眠间断次数(N)</td>
-							<td>2.00</td>
-							<td></td>
+							<td>{{analyze.rate.n.value || ''}}</td>
+							<td><i class="fa" ng-class="(analyze.rate.n.prompt==1) ? 'fa-arrow-up' : (analyze.rate.n.prompt==-1) ? 'fa-arrow-down' : ''"></i></td>
 							<td>0-3</td>
 						</tr>
 						<tr>
 							<td>24小时平均心率(TR)</td>
-							<td>203.33</td>
-							<td><i class="fa fa-arrow-up"></i></td>
+							<td>{{analyze.rate.tr.value || ''}}</td>
+							<td><i class="fa" ng-class="(analyze.rate.tr.prompt==1) ? 'fa-arrow-up' : (analyze.rate.tr.prompt==-1) ? 'fa-arrow-down' : ''"></i></td>
 							<td>67.98-84.11</td>
 						</tr>
 						<tr>
 							<td>睡眠期间平均心率(SR)</td>
-							<td>92.16</td>
-							<td><i class="fa fa-arrow-up"></i></td>
+							<td>{{analyze.rate.sr.value || ''}}</td>
+							<td><i class="fa" ng-class="(analyze.rate.sr.prompt==1) ? 'fa-arrow-up' : (analyze.rate.sr.prompt==-1) ? 'fa-arrow-down' : ''"></i></td>
 							<td>56.64-69.40</td>
 						</tr>
 						<tr>
-							<td>清醒期间平均心率(SR)</td>
-							<td>212.28</td>
-							<td><i class="fa fa-arrow-up"></i></td>
+							<td>清醒期间平均心率(AR)</td>
+							<td>{{analyze.rate.ar.value || ''}}</td>
+							<td><i class="fa" ng-class="(analyze.rate.ar.prompt==1) ? 'fa-arrow-up' : (analyze.rate.ar.prompt==-1) ? 'fa-arrow-down' : ''"></i></td>
 							<td>73.94-93.62</td>
 						</tr>
 						<tr>
 							<td>清醒期间心率标准差(ASD)</td>
-							<td>23.76</td>
-							<td></td>
+							<td>{{analyze.rate.asd.value || ''}}</td>
+							<td><i class="fa" ng-class="(analyze.rate.asd.prompt==1) ? 'fa-arrow-up' : (analyze.rate.asd.prompt==-1) ? 'fa-arrow-down' : ''"></i></td>
 							<td>&gt;5.37</td>
 						</tr>
 						<tr>
 							<td>清醒和睡眠期间的心率差(AR-SR)</td>
-							<td>120.12</td>
-							<td><i class="fa fa-arrow-up"></i></td>
+							<td>{{analyze.rate.ar_sr.value || ''}}</td>
+							<td><i class="fa" ng-class="(analyze.rate.ar_sr.prompt==1) ? 'fa-arrow-up' : (analyze.rate.ar_sr.prompt==-1) ? 'fa-arrow-down' : ''"></i></td>
 							<td>13.88-27.63</td>
 						</tr>
 					</table>
@@ -85,26 +87,26 @@
 						</tr>
 						<tr>
 							<td>短轴(SD1)</td>
-							<td>23.00</td>
-							<td></td>
+							<td>{{analyze.poincare.sd1.value || ''}}</td>
+							<td><i class="fa" ng-class="(analyze.poincare.sd1.prompt==1) ? 'fa-arrow-up' : (analyze.poincare.sd1.prompt==-1) ? 'fa-arrow-down' : ''"></i></td>
 							<td>&ge;11.00</td>
 						</tr>
 						<tr>
 							<td>长轴(SD2)</td>
-							<td>14.00</td>
-							<td><i class="fa fa-arrow-down"></i></td>
+							<td>{{analyze.poincare.sd2.value || ''}}</td>
+							<td><i class="fa" ng-class="(analyze.poincare.sd2.prompt==1) ? 'fa-arrow-up' : (analyze.poincare.sd2.prompt==-1) ? 'fa-arrow-down' : ''"></i></td>
 							<td>&ge;61</td>
 						</tr>
 						<tr>
 							<td>SD1/SD2</td>
-							<td>1.64</td>
-							<td><i class="fa fa-arrow-up"></i></td>
+							<td>{{analyze.poincare.sd1_sd2.value || ''}}</td>
+							<td><i class="fa" ng-class="(analyze.poincare.sd1_sd2.prompt==1) ? 'fa-arrow-up' : (analyze.poincare.sd1_sd2.prompt==-1) ? 'fa-arrow-down' : ''"></i></td>
 							<td>&le;0.30</td>
 						</tr>
 						<tr>
 							<td>面积(PS)</td>
-							<td>346.00</td>
-							<td><i class="fa fa-arrow-down"></i></td>
+							<td>{{analyze.poincare.ps.value || ''}}</td>
+							<td><i class="fa" ng-class="(analyze.poincare.ps.prompt==1) ? 'fa-arrow-up' : (analyze.poincare.ps.prompt==-1) ? 'fa-arrow-down' : ''"></i></td>
 							<td>&ge;828</td>
 						</tr>
 					</table>
@@ -118,15 +120,15 @@
 							<th>评估级别</th>
 						</tr>
 						<tr>
-							<th><i class="fa fa-check"></i></th>
+							<th><i class="fa fa-check" ng-if="analyze.evaluate.chillsFever == 0"></i></th>
 							<th>阳热状态</th>
 						</tr>
 						<tr>
-							<th></th>
+							<th><i class="fa fa-check" ng-if="analyze.evaluate.chillsFever == 1"></i></th>
 							<th>均衡状态</th>
 						</tr>
 						<tr>
-							<th></th>
+							<th><i class="fa fa-check" ng-if="analyze.evaluate.chillsFever == 2"></i></th>
 							<th>阴寒状态</th>
 						</tr>
 					</table>
@@ -137,15 +139,15 @@
 							<th>评估级别</th>
 						</tr>
 						<tr>
-							<th></th>
+							<th><i class="fa fa-check" ng-if="analyze.evaluate.heartHiddenGod1 == 0"></i></th>
 							<th>睡眠时间过长</th>
 						</tr>
 						<tr>
-							<th></th>
+							<th><i class="fa fa-check" ng-if="analyze.evaluate.heartHiddenGod1 == 1"></i></th>
 							<th>睡眠时间适中</th>
 						</tr>
 						<tr>
-							<th><i class="fa fa-check"></i></th>
+							<th><i class="fa fa-check" ng-if="analyze.evaluate.heartHiddenGod1 == 2"></i></th>
 							<th>睡眠时间过短</th>
 						</tr>
 					</table>
@@ -155,19 +157,19 @@
 							<th>评估级别</th>
 						</tr>
 						<tr>
-							<th></th>
+							<th><i class="fa fa-check" ng-if="analyze.evaluate.heartHiddenGod2 == 0"></i></th>
 							<th>睡眠深沉</th>
 						</tr>
 						<tr>
-							<th></th>
+							<th><i class="fa fa-check" ng-if="analyze.evaluate.heartHiddenGod2 == 1"></i></th>
 							<th>睡眠正常</th>
 						</tr>
 						<tr>
-							<th><i class="fa fa-check"></i></th>
+							<th><i class="fa fa-check" ng-if="analyze.evaluate.heartHiddenGod2 == 2"></i></th>
 							<th>睡眠轻浅</th>
 						</tr>
 						<tr>
-							<th></th>
+							<th><i class="fa fa-check" ng-if="analyze.evaluate.heartHiddenGod2 == 3"></i></th>
 							<th>多梦易睡</th>
 						</tr>
 					</table>
@@ -177,19 +179,19 @@
 							<th>评估级别</th>
 						</tr>
 						<tr>
-							<th><i class="fa fa-check"></i></th>
+							<th><i class="fa fa-check" ng-if="analyze.evaluate.heartHiddenGod3 == 0"></i></th>
 							<th>过度兴奋</th>
 						</tr>
 						<tr>
-							<th></th>
+							<th><i class="fa fa-check" ng-if="analyze.evaluate.heartHiddenGod3 == 1"></i></th>
 							<th>精力充沛</th>
 						</tr>
 						<tr>
-							<th></th>
+							<th><i class="fa fa-check" ng-if="analyze.evaluate.heartHiddenGod3 == 2"></i></th>
 							<th>精神一般</th>
 						</tr>
 						<tr>
-							<th></th>
+							<th><i class="fa fa-check" ng-if="analyze.evaluate.heartHiddenGod3 == 3"></i></th>
 							<th>精神不振</th>
 						</tr>
 					</table>
@@ -200,23 +202,23 @@
 							<th>评估级别</th>
 						</tr>
 						<tr>
-							<th></th>
+							<th><i class="fa fa-check" ng-if="analyze.evaluate.heartBloodVeinFilling == 0"></i></th>
 							<th>优秀</th>
 						</tr>
 						<tr>
-							<th></th>
+							<th><i class="fa fa-check" ng-if="analyze.evaluate.heartBloodVeinFilling == 1"></i></th>
 							<th>良好</th>
 						</tr>
 						<tr>
-							<th></th>
+							<th><i class="fa fa-check" ng-if="analyze.evaluate.heartBloodVeinFilling == 2"></i></th>
 							<th>稍差</th>
 						</tr>
 						<tr>
-							<th></th>
+							<th><i class="fa fa-check" ng-if="analyze.evaluate.heartBloodVeinFilling == 3"></i></th>
 							<th>较差</th>
 						</tr>
 						<tr>
-							<th><i class="fa fa-check"></i></th>
+							<th><i class="fa fa-check" ng-if="analyze.evaluate.heartBloodVeinFilling == 4"></i></th>
 							<th>很差</th>
 						</tr>
 					</table>
@@ -229,25 +231,10 @@
 							<th>常见症状</th>
 							<th>调理建议</th>
 						</tr>
-						<tr>
-							<td>阳热状态</td>
-							<td>手脚发热、不怕冷怕热、穿得少盖得少、心烦、多汗</td>
-							<td>1.银花上品冲调粉，5克/次，2次/日，温水冲服。<br/>2.冷水浴或游泳。<br/>3.少吃羊肉或辛辣食品</td>
-						</tr>
-						<tr>
-							<td>睡眠时间过短 睡眠轻浅</td>
-							<td>感冒、多梦、夜尿多、性欲低、食欲差、脾气爆、皮肤干</td>
-							<td>1.酸枣上品冲调粉，10克/次，2次/日，温水冲服。<br/>2.不吃过饱。<br/>3.不饮用咖啡、茶叶</td>
-						</tr>
-						<tr>
-							<td>过度兴奋</td>
-							<td>多语、多动、性格外向、甚至躁狂不安</td>
-							<td>1.百合上品冲调粉，10克/次，2次/日，温水冲服。<br/>2.放慢生活节奏。<br/>3.打太极、练瑜伽、听舒缓音乐</td>
-						</tr>
-						<tr>
-							<td>心脏的潜力很差</td>
-							<td>胸闷憋气、胸痛、心慌、下肢浮肿</td>
-							<td>1.到医院就诊。<br/>2.严禁兴奋、过饱、用例排便</td>
+						<tr ng-repeat="item in analyze.suggests">
+							<td>{{item.result}}</td>
+							<td>{{item.symptom}}</td>
+							<td>{{item.recuperate}}</td>
 						</tr>
 					</table>
 				</div>
