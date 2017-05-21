@@ -21,6 +21,7 @@ public interface UserDAO{
     UserBean findUserByUsername(String name);
 
 
+
     /**
      *
      * @param name 昵称
@@ -33,6 +34,7 @@ public interface UserDAO{
 
 
     UserBean findUserById(Long id);
+
 
     void update(UserBean ub);
 

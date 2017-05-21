@@ -17,7 +17,8 @@ public class UserInfoService {
     UserInfoDAO userInfoDAO;
 
     public UserInfoBean getUserInfoByUID(Long uid){
-        return userInfoDAO.getUserInfoByUserId(uid);
+        UserInfoBean uib = userInfoDAO.getUserInfoByUserId(uid);
+        return uib;
     }
 
     public void saveUserInfo(UserInfoBean uib){

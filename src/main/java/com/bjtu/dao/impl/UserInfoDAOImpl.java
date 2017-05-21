@@ -19,6 +19,7 @@ public class UserInfoDAOImpl implements UserInfoDAO {
     EntityManager entityManager;
 
     @Override
+    @Transactional
     public UserInfoBean getUserInfoByUserId(Long userId) {
         UserBean ub  = entityManager.find(UserBean.class,userId);
         return ub.getUserInfoBean();

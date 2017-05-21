@@ -74,7 +74,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements Auth
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        //todo 配置静态资源路径
         web.ignoring().antMatchers("/WEB-INF/**","/res/**","/kaptcha");
     }
 
@@ -196,4 +195,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements Auth
             return new com.bjtu.bean.UserDetails(ub);
         }
     }
+
 }

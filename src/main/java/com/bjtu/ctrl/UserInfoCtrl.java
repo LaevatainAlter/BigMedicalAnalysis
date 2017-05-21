@@ -52,8 +52,8 @@ public class UserInfoCtrl {
     public Map getPerInfo() throws IOException {
         UserInfoBean uib = userInfoService.getUserInfoByUID(GlobalVariableHolder.getCurrentUserId());
         UserBean user = uib.getUserBean();
-        uib.setUserBean(null);
         ObjectMapper om = new ObjectMapper();
+        uib.setUserBean(null);
         String json = om.writeValueAsString(uib);
         Map map = om.readValue(json, Map.class);
         map.put("userRegTime", user.getCreateTime());

@@ -7,6 +7,7 @@ import com.bjtu.dao.UserDAO;
 import com.bjtu.util.GlobalVariableHolder;
 import com.google.code.kaptcha.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -80,7 +81,12 @@ public class UserService {
     @Transactional
     public void updateUser(UserBean ub) {
         userDAO.update(ub);
+        this.cleanUserBeanCache(ub.getId());
     }
+
+
+    @CacheEvict(key = "#id")
+    public void cleanUserBeanCache(Long id) { }
 
     private Map generateErrorMap(String field, String msg) {
         Map json = new HashMap<String, String>();

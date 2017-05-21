@@ -74,6 +74,8 @@ public class UserDAOImpl implements UserDAO {
         return entityManager.find(UserBean.class,id);
     }
 
+
+
     @Override
     public void update(UserBean ub) {
         entityManager.merge(ub);
