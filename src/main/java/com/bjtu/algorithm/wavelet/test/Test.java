@@ -51,7 +51,7 @@ public class Test {
 	}
 	
 	public static double[] getData() throws IOException {
-		short[] list = getHeartData("./2015-06-06-16-33-03孙伶俐--正常人.txt");
+		short[] list = getHeartData("./2015-06-06-13-11-11温暖-正常人.txt");
 		//short[] list = getTxtData("./result1of5000.txt");
 		double[] res = new double[list.length];
 		for (int i = 0; i < list.length; ++i) {
