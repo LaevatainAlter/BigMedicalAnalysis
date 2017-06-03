@@ -43,3 +43,6 @@ spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.MySQL5Dialect
 # JCache configuration (example with ehcache 3).
 #
 spring.cache.jcache.config=ehcache3.xml
+
+spring.http.multipart.maxFileSize=100Mb
+spring.http.multipart.maxRequestSize=1000Mb

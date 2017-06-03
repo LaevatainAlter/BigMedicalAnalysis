@@ -105,6 +105,16 @@ public class UserInfoCtrl {
         return json;
     }
 
+    @GetMapping("/data-show.html")
+    public String showData(){
+        return "project/data-show";
+    }
+
+    @GetMapping("/data-list.html")
+    public String listData(){
+        return "project/data-list";
+    }
+
     /**
      * 校验密码是否正确
      *
