@@ -11,7 +11,7 @@ import java.util.List;
  * Created by Gimling on 2017/4/8.
  */
 @Entity
-@Table(name = "user")
+@Table(name = "medical_user")
 public class UserBean implements Serializable {
 
     @Id
@@ -44,7 +44,12 @@ public class UserBean implements Serializable {
     @OneToMany(targetEntity = LoginLog.class,mappedBy = "userBean",fetch = FetchType.LAZY)
     @OrderBy("id desc ")
     @Size(max=10)
-    private List<LoginLog> loginLog = new ArrayList<LoginLog>();
+    private List<LoginLog> loginLog = new ArrayList<>();
+
+    @OneToMany(targetEntity = UploadRecordBean.class,mappedBy = "userBean")
+    @OrderBy("id desc ")
+    @Size(max=10)
+    private List<UploadRecordBean> UploadRecords = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -117,6 +122,14 @@ public class UserBean implements Serializable {
 
     public void setLoginLog(List<LoginLog> loginLog) {
         this.loginLog = loginLog;
+    }
+
+    public List<UploadRecordBean> getUploadRecords() {
+        return UploadRecords;
+    }
+
+    public void setUploadRecords(List<UploadRecordBean> uploadRecords) {
+        UploadRecords = uploadRecords;
     }
 
     @Override

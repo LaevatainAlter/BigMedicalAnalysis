@@ -10,14 +10,13 @@ import java.util.Date;
  * Created by Gimling on 2017/4/9.
  */
 @Entity
-@Table(name = "userinfo")
+@Table(name = "medical_userinfo")
 @DynamicUpdate
 public class UserInfoBean implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
 
     /**
      *性别
@@ -34,7 +33,6 @@ public class UserInfoBean implements Serializable{
     @Column
     @Temporal(TemporalType.DATE)
     private Date userBirth;
-
 
     //所属医院
     @Column(length = 20)
