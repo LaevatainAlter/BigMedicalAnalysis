@@ -25,7 +25,7 @@ public class PatientInfoCtrl {
 
     @GetMapping("/toGetHistoryList")
     @ResponseBody
-    public Map getHistoryList(@RequestParam(value = "query")String query){
+    public Map getHistoryList(@RequestParam(value = "query",required = false)String query){
         Map json = new HashMap();
         List historyList = uploadFileService.getUploadList(GlobalVariableHolder.getCurrentUserId(),query);
         List jsonList = new ArrayList();
@@ -52,7 +52,10 @@ public class PatientInfoCtrl {
      */
     @PostMapping(path = "/toUploadFile",consumes = MediaType.MULTIPART_FORM_DATA_VALUE,produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    public Map uploadFile(@RequestParam(value = "file",required = false) MultipartFile file, HttpServletRequest request) throws IOException {
+    public Map uploadFile(@RequestParam(value = "file",required = false) MultipartFile file,
+                                    @RequestParam(value = "patientName",required = false)String patientName,
+                                    @RequestParam(value = "patientDate",required = false)String patientDate,
+                          HttpServletRequest request) throws IOException {
         return uploadFileService.processFile(file,request.getRealPath("/"));
     }
 

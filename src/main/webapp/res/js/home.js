@@ -12,7 +12,7 @@ $(document).ready(function(){
 	$('.side-li:first').children().addClass('li-active');
 });
 
-angular.module('homeApp', []).controller('homeCtrl', function($scope){
+angular.module('homeApp', ['ngFileUpload']).controller('homeCtrl', function($scope){
 	$scope.mode = 'person.html';
 	$scope.chgPage = function(index){
 		if(index == 0){
