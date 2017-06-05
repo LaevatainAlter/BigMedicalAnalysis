@@ -5,9 +5,11 @@
 	<title>数据分析界面</title>
 	<link rel="stylesheet" href="../res/css/reset.css"/>
 	<link rel="stylesheet" href="../res/css/font-awesome.min.css"/>
-	<link rel="stylesheet" href="../res/css/content.css"/>
+	<link rel="stylesheet" href="../res/css/content1.css"/>
 	<script src="../res/js/d3.v4.min.js"></script>
 	<script src="../res/js/Chart.min.js"></script>
+	<!-- <script src="../res/js/jquery-3.1.1.min.js"></script>
+	<script src="../res/js/angular-1.6.1.min.js"></script> -->
 </head>
 <!-- <body ng-app="dataApp"> -->
 <body>
@@ -31,6 +33,19 @@
 					<div id="data-show-poincare">
 						<div class="data-show-chart">
 
+						</div>
+						<div class="filterParam">
+							<span>过滤点:</span>
+							<input type="number" max="20" min="1" ng-model="filterParam1" ng-change="filterParamChgLine(filterParam1, circleR1, grid1, assist1)"/>
+							<span>点半径:</span>
+							<input type="number" max="5" min="1" ng-model="circleR1" ng-change="filterParamChgLine(filterParam1, circleR1, grid1, assist1)"/>
+							<span>是否需要网格背景:</span>
+							<input type="checkbox" ng-model="grid1" ng-change="filterParamChgLine(filterParam1, circleR1, grid1, assist1)"/>
+							<span>是否需要辅助线:</span>
+							<input type="checkbox" ng-model="assist1" ng-change="filterParamChgLine(filterParam1, circleR1, grid1, assist1)"/>
+						</div>
+						<div class="data-show-brush">
+							
 						</div>
 					</div>
 				</div>
