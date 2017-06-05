@@ -8,7 +8,6 @@
 	<link rel="stylesheet" href="../res/css/content.css"/>
 	<script src="../res/js/d3.v4.min.js"></script>
 	<script src="../res/js/Chart.min.js"></script>
-
 	<!-- <script src="../res/js/jquery-3.1.1.min.js"></script>
 	<script src="../res/js/angular-1.6.1.min.js"></script> -->
 </head>
@@ -17,228 +16,25 @@
 	<!-- <div class="delete-container">
 		<div class="delete-content"> -->
 			<div class="data-show-container" ng-controller="dataCtrl">
-				<input type="file" file-model="fileToUpload"/>
-				<button type="button" ng-click="sendFile()">提交</button>
-				<div id="data-show-heart-rate">
-					<h2>心率变化</h2>
-					<div class="data-show-chart">
-						<canvas id="myChart1" width="770" height="385" style="display: block; width: 770px; height: 385px;"></canvas>
-					</div>
-					<table>
-						<tr>
-							<th>评估指标</th>
-							<th>取值</th>
-							<th>提示</th>
-							<th>参考范围</th>
-						</tr>
-						<tr>
-							<td>睡眠累计时间(T)</td>
-							<td>{{analyze.rate.t.value || ''}}</td>
-							<td><i class="fa" ng-class="(analyze.rate.t.prompt==1) ? 'fa-arrow-up' : (analyze.rate.t.prompt==-1) ? 'fa-arrow-down' : ''"></i></td>
-							<td>5.03-9.61</td>
-						</tr>
-						<tr>
-							<td>睡眠间断次数(N)</td>
-							<td>{{analyze.rate.n.value || ''}}</td>
-							<td><i class="fa" ng-class="(analyze.rate.n.prompt==1) ? 'fa-arrow-up' : (analyze.rate.n.prompt==-1) ? 'fa-arrow-down' : ''"></i></td>
-							<td>0-3</td>
-						</tr>
-						<tr>
-							<td>24小时平均心率(TR)</td>
-							<td>{{analyze.rate.tr.value || ''}}</td>
-							<td><i class="fa" ng-class="(analyze.rate.tr.prompt==1) ? 'fa-arrow-up' : (analyze.rate.tr.prompt==-1) ? 'fa-arrow-down' : ''"></i></td>
-							<td>67.98-84.11</td>
-						</tr>
-						<tr>
-							<td>睡眠期间平均心率(SR)</td>
-							<td>{{analyze.rate.sr.value || ''}}</td>
-							<td><i class="fa" ng-class="(analyze.rate.sr.prompt==1) ? 'fa-arrow-up' : (analyze.rate.sr.prompt==-1) ? 'fa-arrow-down' : ''"></i></td>
-							<td>56.64-69.40</td>
-						</tr>
-						<tr>
-							<td>清醒期间平均心率(AR)</td>
-							<td>{{analyze.rate.ar.value || ''}}</td>
-							<td><i class="fa" ng-class="(analyze.rate.ar.prompt==1) ? 'fa-arrow-up' : (analyze.rate.ar.prompt==-1) ? 'fa-arrow-down' : ''"></i></td>
-							<td>73.94-93.62</td>
-						</tr>
-						<tr>
-							<td>清醒期间心率标准差(ASD)</td>
-							<td>{{analyze.rate.asd.value || ''}}</td>
-							<td><i class="fa" ng-class="(analyze.rate.asd.prompt==1) ? 'fa-arrow-up' : (analyze.rate.asd.prompt==-1) ? 'fa-arrow-down' : ''"></i></td>
-							<td>&gt;5.37</td>
-						</tr>
-						<tr>
-							<td>清醒和睡眠期间的心率差(AR-SR)</td>
-							<td>{{analyze.rate.ar_sr.value || ''}}</td>
-							<td><i class="fa" ng-class="(analyze.rate.ar_sr.prompt==1) ? 'fa-arrow-up' : (analyze.rate.ar_sr.prompt==-1) ? 'fa-arrow-down' : ''"></i></td>
-							<td>13.88-27.63</td>
-						</tr>
-					</table>
+				<div class="data-show-info" ng-show="noResult">
+					<form>
+						<input type="file" name="file" ng-model="file"/>
+						<span>患者名字：</span><input type="text" name="patientName" ng-model="patientName"/>
+						<span>患者日期：</span><input type="text" name="patientDate" ng-model="patientDate"/>
+						<button ng-click="toSubmit()">提交</button>
+					</form>
 				</div>
-				<div id="data-show-poincare">
-					<h2>Poincare散点图</h2>
-					<div class="data-show-chart">
+				<div class="data-show-result" ng-show="!noResult">
+					<div id="data-show-heart-rate">
+						<div class="data-show-chart">
 
+						</div>
 					</div>
-					<table>
-						<tr>
-							<th>评测指标</th>
-							<th>取值</th>
-							<th>提示</th>
-							<th>参考范围</th>
-						</tr>
-						<tr>
-							<td>短轴(SD1)</td>
-							<td>{{analyze.poincare.sd1.value || ''}}</td>
-							<td><i class="fa" ng-class="(analyze.poincare.sd1.prompt==1) ? 'fa-arrow-up' : (analyze.poincare.sd1.prompt==-1) ? 'fa-arrow-down' : ''"></i></td>
-							<td>&ge;11.00</td>
-						</tr>
-						<tr>
-							<td>长轴(SD2)</td>
-							<td>{{analyze.poincare.sd2.value || ''}}</td>
-							<td><i class="fa" ng-class="(analyze.poincare.sd2.prompt==1) ? 'fa-arrow-up' : (analyze.poincare.sd2.prompt==-1) ? 'fa-arrow-down' : ''"></i></td>
-							<td>&ge;61</td>
-						</tr>
-						<tr>
-							<td>SD1/SD2</td>
-							<td>{{analyze.poincare.sd1_sd2.value || ''}}</td>
-							<td><i class="fa" ng-class="(analyze.poincare.sd1_sd2.prompt==1) ? 'fa-arrow-up' : (analyze.poincare.sd1_sd2.prompt==-1) ? 'fa-arrow-down' : ''"></i></td>
-							<td>&le;0.30</td>
-						</tr>
-						<tr>
-							<td>面积(PS)</td>
-							<td>{{analyze.poincare.ps.value || ''}}</td>
-							<td><i class="fa" ng-class="(analyze.poincare.ps.prompt==1) ? 'fa-arrow-up' : (analyze.poincare.ps.prompt==-1) ? 'fa-arrow-down' : ''"></i></td>
-							<td>&ge;828</td>
-						</tr>
-					</table>
-				</div>
-				<div id="data-show-evaluation">
-					<h2>综合评估</h2>
-					<h4>寒热状态评估</h4>
-					<table>
-						<tr>
-							<th>评估结果</th>
-							<th>评估级别</th>
-						</tr>
-						<tr>
-							<th><i class="fa fa-check" ng-if="analyze.evaluate.chillsFever == 0"></i></th>
-							<th>阳热状态</th>
-						</tr>
-						<tr>
-							<th><i class="fa fa-check" ng-if="analyze.evaluate.chillsFever == 1"></i></th>
-							<th>均衡状态</th>
-						</tr>
-						<tr>
-							<th><i class="fa fa-check" ng-if="analyze.evaluate.chillsFever == 2"></i></th>
-							<th>阴寒状态</th>
-						</tr>
-					</table>
-					<h4>中医心藏藏神功能评估</h4>
-					<table>
-						<tr>
-							<th>评估结果</th>
-							<th>评估级别</th>
-						</tr>
-						<tr>
-							<th><i class="fa fa-check" ng-if="analyze.evaluate.heartHiddenGod1 == 0"></i></th>
-							<th>睡眠时间过长</th>
-						</tr>
-						<tr>
-							<th><i class="fa fa-check" ng-if="analyze.evaluate.heartHiddenGod1 == 1"></i></th>
-							<th>睡眠时间适中</th>
-						</tr>
-						<tr>
-							<th><i class="fa fa-check" ng-if="analyze.evaluate.heartHiddenGod1 == 2"></i></th>
-							<th>睡眠时间过短</th>
-						</tr>
-					</table>
-					<table>
-						<tr>
-							<th>评估结果</th>
-							<th>评估级别</th>
-						</tr>
-						<tr>
-							<th><i class="fa fa-check" ng-if="analyze.evaluate.heartHiddenGod2 == 0"></i></th>
-							<th>睡眠深沉</th>
-						</tr>
-						<tr>
-							<th><i class="fa fa-check" ng-if="analyze.evaluate.heartHiddenGod2 == 1"></i></th>
-							<th>睡眠正常</th>
-						</tr>
-						<tr>
-							<th><i class="fa fa-check" ng-if="analyze.evaluate.heartHiddenGod2 == 2"></i></th>
-							<th>睡眠轻浅</th>
-						</tr>
-						<tr>
-							<th><i class="fa fa-check" ng-if="analyze.evaluate.heartHiddenGod2 == 3"></i></th>
-							<th>多梦易睡</th>
-						</tr>
-					</table>
-					<table>
-						<tr>
-							<th>评估结果</th>
-							<th>评估级别</th>
-						</tr>
-						<tr>
-							<th><i class="fa fa-check" ng-if="analyze.evaluate.heartHiddenGod3 == 0"></i></th>
-							<th>过度兴奋</th>
-						</tr>
-						<tr>
-							<th><i class="fa fa-check" ng-if="analyze.evaluate.heartHiddenGod3 == 1"></i></th>
-							<th>精力充沛</th>
-						</tr>
-						<tr>
-							<th><i class="fa fa-check" ng-if="analyze.evaluate.heartHiddenGod3 == 2"></i></th>
-							<th>精神一般</th>
-						</tr>
-						<tr>
-							<th><i class="fa fa-check" ng-if="analyze.evaluate.heartHiddenGod3 == 3"></i></th>
-							<th>精神不振</th>
-						</tr>
-					</table>
-					<h4>中医心藏藏血充脉功能评估</h4>
-					<table>
-						<tr>
-							<th>评估结果</th>
-							<th>评估级别</th>
-						</tr>
-						<tr>
-							<th><i class="fa fa-check" ng-if="analyze.evaluate.heartBloodVeinFilling == 0"></i></th>
-							<th>优秀</th>
-						</tr>
-						<tr>
-							<th><i class="fa fa-check" ng-if="analyze.evaluate.heartBloodVeinFilling == 1"></i></th>
-							<th>良好</th>
-						</tr>
-						<tr>
-							<th><i class="fa fa-check" ng-if="analyze.evaluate.heartBloodVeinFilling == 2"></i></th>
-							<th>稍差</th>
-						</tr>
-						<tr>
-							<th><i class="fa fa-check" ng-if="analyze.evaluate.heartBloodVeinFilling == 3"></i></th>
-							<th>较差</th>
-						</tr>
-						<tr>
-							<th><i class="fa fa-check" ng-if="analyze.evaluate.heartBloodVeinFilling == 4"></i></th>
-							<th>很差</th>
-						</tr>
-					</table>
-				</div>
-				<div id="data-show-suggest">
-					<h2>常见症状和调理建议</h2>
-					<table>
-						<tr>
-							<th>评估结果</th>
-							<th>常见症状</th>
-							<th>调理建议</th>
-						</tr>
-						<tr ng-repeat="item in analyze.suggests">
-							<td>{{item.result}}</td>
-							<td>{{item.symptom}}</td>
-							<td>{{item.recuperate}}</td>
-						</tr>
-					</table>
+					<div id="data-show-poincare">
+						<div class="data-show-chart">
+
+						</div>
+					</div>
 				</div>
 			</div>
 		<!-- </div>
