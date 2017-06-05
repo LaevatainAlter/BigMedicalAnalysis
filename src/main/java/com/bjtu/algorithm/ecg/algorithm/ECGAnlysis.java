@@ -2,7 +2,12 @@ package com.bjtu.algorithm.ecg.algorithm;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 import com.bjtu.algorithm.ecg.io.DataIO;
 import com.bjtu.algorithm.ecg.transform.ECGTransform;
@@ -16,6 +21,11 @@ import com.bjtu.algorithm.ecg.transform.config.GlobalConfig;
  *
  */
 public class ECGAnlysis {
+	private static final int AVERAGE_HB_MIN = 70;
+	private static final int AVERAGE_HB_MAX = 90;
+	private static final int QUIET_HB = 70;
+	private static final int HAPPY_HB = 110;
+	
 	/** 待分析的文件 */
 	private File dataFile;
 	
@@ -136,5 +146,62 @@ public class ECGAnlysis {
 			rrDistance[i] = rWavePosition[i + 1] - rWavePosition[i];
 		}
 		return rrDistance;
+	}
+	
+	/**
+	 * 获得指标
+	 */
+	public List<Map<String, Object>> getNumerics() throws IOException {
+		int[] hbs = getHeartBeatPerSecond();
+		int sum = 0, happy = 0, quiet = 0;
+		
+		String[] names = new String[] {"平均心率", "安静时间", "兴奋时间"};
+		BigDecimal[][] ranges = new BigDecimal[][] {
+				{BigDecimal.valueOf(AVERAGE_HB_MIN), BigDecimal.valueOf(AVERAGE_HB_MAX)},
+				{null, null},
+				{null, null}
+		};
+		BigDecimal[] values = new BigDecimal[names.length];
+
+		for (Integer hb : hbs) {
+			sum += hb;
+			if (hb > HAPPY_HB) {
+				++happy;
+			} else if (hb < QUIET_HB) {
+				++quiet;
+			}
+		}
+	
+		values[0] = BigDecimal.valueOf(sum * 1.0).divide(BigDecimal.valueOf(hbs.length), 2, BigDecimal.ROUND_HALF_EVEN);
+		values[1] = BigDecimal.valueOf(quiet);
+		values[2] = BigDecimal.valueOf(happy);
+		
+		List<Map<String, Object>> list = new ArrayList<>();
+
+		for (int i = 0; i < names.length; ++i) {
+			Map<String, Object> map = new LinkedHashMap<>();
+			map.put("name", names[i]);
+			if (ranges[i][0] != null) {
+				map.put("range", ranges[i][0] + "-" + ranges[i][1]);
+
+				map.put("prompt", ranges[i][0].compareTo(values[i]) <= 0 && ranges[i][1].compareTo(values[i]) >= 0 ? 0 :
+					(ranges[i][0].compareTo(values[i]) > 0 ? -1 : 1));
+			} else {
+				map.put("range", "");
+				map.put("prompt", 2);
+			}
+			switch (names[i]) {
+			case "平均心率":
+				map.put("value", values[i].toPlainString());
+				break;
+			case "安静时间": case "兴奋时间":
+				map.put("value", values[i].multiply(BigDecimal.valueOf(100).divide(
+						BigDecimal.valueOf(hbs.length), 2, BigDecimal.ROUND_HALF_EVEN)).toPlainString());
+				break;
+			}
+			list.add(map);
+		}
+		
+		return list;
 	}
 }

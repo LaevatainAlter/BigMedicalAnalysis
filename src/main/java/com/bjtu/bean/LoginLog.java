@@ -7,7 +7,7 @@ import java.util.Date;
  * Created by gimling on 17-4-20.
  */
 @Entity
-@Table(name = "LoginLog")
+@Table(name = "medical_login_log")
 public class LoginLog {
 
     @Id
