@@ -1,5 +1,4 @@
 angular.module('homeApp').controller('dataCtrl', function($scope, $http, Upload){
-// angular.module('dataApp', []).controller('dataCtrl', function($scope, $http){
 	var dataset1 = new Array(), dataset2 = new Array();
 	var width = $('.data-show-chart').width();
 	var height = width/2;

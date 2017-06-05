@@ -24,5 +24,3 @@ angular.module('homeApp', []).controller('homeCtrl', function($scope){
 		}
 	};
 });
-
-// angular.module('infoApp', []);
