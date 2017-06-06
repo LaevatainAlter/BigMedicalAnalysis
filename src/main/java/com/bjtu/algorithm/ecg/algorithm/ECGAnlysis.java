@@ -196,7 +196,7 @@ public class ECGAnlysis {
 				break;
 			case "安静时间": case "兴奋时间":
 				map.put("value", values[i].multiply(BigDecimal.valueOf(100).divide(
-						BigDecimal.valueOf(hbs.length), 2, BigDecimal.ROUND_HALF_EVEN)).toPlainString());
+						BigDecimal.valueOf(hbs.length), 2, BigDecimal.ROUND_HALF_EVEN)).toPlainString() + "%");
 				break;
 			}
 			list.add(map);
