@@ -50,6 +50,7 @@ public class JpaTest {
         entityManager.persist(uib);
         entityManager.persist(ub);
         entityManager.flush();
+        
     }
 
     @Test
