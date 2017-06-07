@@ -51,6 +51,14 @@ public class UserBean implements Serializable {
     @Size(max=10)
     private List<UploadRecordBean> UploadRecords = new ArrayList<>();
 
+    public UserBean() {
+    }
+
+    public UserBean(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
     public Long getId() {
         return id;
     }
@@ -113,7 +121,6 @@ public class UserBean implements Serializable {
 
     public void setUserInfoBean(UserInfoBean userInfoBean) {
         this.userInfoBean = userInfoBean;
-        this.userInfoBean.setUserBean(this);
     }
 
     public List<LoginLog> getLoginLog() {

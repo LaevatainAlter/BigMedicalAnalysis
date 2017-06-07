@@ -7,7 +7,6 @@ import com.bjtu.service.LoginLogService;
 import com.bjtu.service.UserInfoService;
 import com.bjtu.service.UserService;
 import com.bjtu.util.GlobalVariableHolder;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
@@ -22,6 +21,9 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+
+import static com.bjtu.service.JsonService.fromJson;
+import static com.bjtu.service.JsonService.toJson;
 
 /**
  * Created by gimling on 17-4-21.
@@ -50,16 +52,17 @@ public class UserInfoCtrl {
     @GetMapping("/toGetPerInfo")
     @ResponseBody
     public Map getPerInfo() throws IOException {
-        UserInfoBean uib = userInfoService.getUserInfoByUID(GlobalVariableHolder.getCurrentUserId());
+        Long uid = userService.getCurrentUserId();
+        UserInfoBean uib = userInfoService.getUserInfoByUID(uid);
         UserBean user = uib.getUserBean();
-        ObjectMapper om = new ObjectMapper();
         uib.setUserBean(null);
-        String json = om.writeValueAsString(uib);
-        Map map = om.readValue(json, Map.class);
+        String json = toJson(uib);
+        Map map = fromJson(json, Map.class);
         map.put("userRegTime", user.getCreateTime());
         map.put("userName", user.getNickname());
         map.put("userEmail", user.getUsername());
         map.remove("userBean");
+        uib.setUserBean(user);
         return map;
     }
 
@@ -76,7 +79,8 @@ public class UserInfoCtrl {
         Map json = new HashMap();
         json.put("type", data.get("type"));
         json.put("value", data.get("value"));
-        UserBean ub = userService.findUserById(GlobalVariableHolder.getCurrentUserId());
+        Long uid = GlobalVariableHolder.getCurrentUserId();
+        UserBean ub = userService.findUserById(uid);
         switch (data.get("type").toString()) {
             case "userName":
                 ub.setNickname(data.get("value").toString());
@@ -84,34 +88,42 @@ public class UserInfoCtrl {
                 break;
             case "userSex":
                 ub.getUserInfoBean().setUserSex(data.get("value").equals("1"));
-                userInfoService.saveUserInfo(ub.getUserInfoBean());
+                userInfoService.saveUserInfo(uid,ub.getUserInfoBean());
                 break;
             case "userBirth":
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-M-d");
                 Date date = simpleDateFormat.parse(data.get("value").toString());
                 ub.getUserInfoBean().setUserBirth(date);
-                userInfoService.saveUserInfo(ub.getUserInfoBean());
+                userInfoService.saveUserInfo(uid,ub.getUserInfoBean());
                 break;
             case "userPhone":
                 ub.getUserInfoBean().setUserPhone(data.get("value").toString());
-                userInfoService.saveUserInfo(ub.getUserInfoBean());
+                userInfoService.saveUserInfo(uid,ub.getUserInfoBean());
                 break;
             case "userHospital":
                 ub.getUserInfoBean().setUserHosipital(data.get("value").toString());
-                userInfoService.saveUserInfo(ub.getUserInfoBean());
+                userInfoService.saveUserInfo(uid,ub.getUserInfoBean());
                 break;
         }
         json.put("status", true);
         return json;
     }
 
+    /**
+     * 返回视图  ‘/WEB-INF/pages/data-show.html‘
+     * @return
+     */
     @GetMapping("/data-show.html")
-    public String showData(){
+    public String showData() {
         return "project/data-show";
     }
 
+    /**
+     * 返回视图  ‘/WEB-INF/pages/data-list.html‘
+     * @return
+     */
     @GetMapping("/data-list.html")
-    public String listData(){
+    public String listData() {
         return "project/data-list";
     }
 
@@ -125,7 +137,7 @@ public class UserInfoCtrl {
     @ResponseBody
     public Map verifyPass(@RequestBody Map<String, String> data) {
         Map json = new HashMap();
-        UserBean ub = userService.findUserById(GlobalVariableHolder.getCurrentUserId());
+        UserBean ub = userService.findUserById(userService.getCurrentUserId());
         String oldPss = passwordEncoder.encodePassword(data.get("oldPass"), null);
         if (!ub.getPassword().equals(oldPss)) {
             json.put("status", false);
@@ -183,7 +195,8 @@ public class UserInfoCtrl {
     }
 
     /**
-     *  获取当前用户的登录记录
+     * 获取当前用户的登录记录
+     *
      * @return JSON(Map)对象,{loginRecord:[{}]}
      */
     @GetMapping("/toGetLoginRecord")

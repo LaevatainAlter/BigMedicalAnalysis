@@ -26,6 +26,10 @@ public class UploadRecordBean {
     @Column(length = 50)
     private String name;
 
+    /*病人名*/
+    @Column
+    private String patientName;
+
     /*上传者唯一标识符*/
     @ManyToOne(targetEntity = UserBean.class)
     @JoinColumn(name = "uid",referencedColumnName = "id")
@@ -36,6 +40,11 @@ public class UploadRecordBean {
     @Temporal(TemporalType.TIMESTAMP)
     private Date date = new Date();
 
+    /*上传时间*/
+    @Column
+    @Temporal(TemporalType.DATE)
+    private Date patientDate = new Date();
+
     /*解析是否完成*/
     @Column
     private Boolean isAnalysis = false;
@@ -43,6 +52,15 @@ public class UploadRecordBean {
     /*是否可用*/
     @Column
     private Boolean enabled = true;
+
+    public UploadRecordBean() {
+    }
+
+    public UploadRecordBean(String originName, String uuid, UserBean userBean) {
+        this.originName = originName;
+        this.uuid = uuid;
+        this.userBean = userBean;
+    }
 
     public Long getId() {
         return id;
@@ -76,6 +94,14 @@ public class UploadRecordBean {
         this.name = name;
     }
 
+    public String getPatientName() {
+        return patientName;
+    }
+
+    public void setPatientName(String patientName) {
+        this.patientName = patientName;
+    }
+
     public UserBean getUserBean() {
         return userBean;
     }
@@ -90,6 +116,14 @@ public class UploadRecordBean {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public Date getPatientDate() {
+        return patientDate;
+    }
+
+    public void setPatientDate(Date patientDate) {
+        this.patientDate = patientDate;
     }
 
     public Boolean getAnalysis() {

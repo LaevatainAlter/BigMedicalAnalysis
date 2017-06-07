@@ -63,7 +63,6 @@ public class UserDAOImpl implements UserDAO {
     @Override
     @Transactional
     public Boolean saveUserBean(UserBean ub) {
-        entityManager.persist(ub.getUserInfoBean());
         entityManager.persist(ub);
         return true;
     }
@@ -73,8 +72,6 @@ public class UserDAOImpl implements UserDAO {
     public UserBean findUserById(Long id) {
         return entityManager.find(UserBean.class,id);
     }
-
-
 
     @Override
     public void update(UserBean ub) {

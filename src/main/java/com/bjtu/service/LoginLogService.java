@@ -28,9 +28,6 @@ public class LoginLogService {
 
 
     public List<LoginLog> getLoginLogs(Long userid){
-        //UserBean ub = entityManager.find(UserBean.class,userid);
-       // entityManager.createQuery("SELECT log FROM LoginLog log WHERE log.id")
-        //return ub.getLoginLog();
         return loginLogDAO.getLoginlogs(userid);
     }
 

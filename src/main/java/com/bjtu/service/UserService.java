@@ -1,19 +1,19 @@
 package com.bjtu.service;
 
 import com.bjtu.bean.UserBean;
-import com.bjtu.bean.UserInfoBean;
 import com.bjtu.config.SecurityConfig;
 import com.bjtu.dao.UserDAO;
 import com.bjtu.util.GlobalVariableHolder;
-import com.google.code.kaptcha.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
+
+import static com.bjtu.util.GlobalVariableHolder.getCurrentKaptcha;
 
 /**
  * Created by gimling on 17-4-21.
@@ -25,37 +25,48 @@ public class UserService {
     @Autowired
     UserDAO userDAO;
 
-    private static String[][] errMsg = {
+    private static String[][] fieldInfo = {
             {"username", "用户名不能为空"},
             {"password", "密码不能为空"},
-            {"repeat-password", "请重复输入密码"},
+            {"repeat-password", "请确认您的密码"},
             {"code", "验证码不能为空"}
     };
 
+    /**
+     * 保存用户的注册信息
+     * @param map
+     * @return
+     */
+    @Transactional
     public Map processRegister(Map<String, String> map) {
-        UserBean ub = new UserBean();
-        ub.setUsername(map.get("username"));
-        ub.setPassword(SecurityConfig.getPasswordEncoder().encodePassword(map.get("password"), null));
-        UserInfoBean uib = new UserInfoBean();
-        ub.setUserInfoBean(uib);
+        String username = map.get("username");
+        /*MD5加密密码*/
+        String password = SecurityConfig.getPasswordEncoder().encodePassword(map.get("password"), null);
+        UserBean ub = new UserBean(username,password);
         userDAO.saveUserBean(ub);
-        Map json = new HashMap();
+
+        Map json = new LinkedHashMap();
         json.put("status", true);
         return json;
     }
 
+    /**
+     * 注册信息校验
+     * @param map 用户的注册信息
+     * @return
+     */
     public Map<String, String> registerValidate(Map<String, String> map) {
 
-        Map json = null;
-        for (int i = 0; i < errMsg.length; i++) {
-            if ((json = checkNull(map.get(errMsg[i][0]), errMsg[i][0], errMsg[i][1])) != null) {
-                return json;
+        //校验Map(JSON)完整性
+        for (int i = 0; i < fieldInfo.length; i++) {
+            if(!map.containsKey(fieldInfo[i][0])&&map.get(fieldInfo[i][0])==null||StringUtils.isEmpty(map.get(fieldInfo[i][0]))){
+                return generateErrorMap(fieldInfo[i][0], fieldInfo[i][1]);
             }
         }
 
         //验证码校验
         String kaptcha = map.get("code");
-        String expect = (String) GlobalVariableHolder.getCurrentRequest().getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
+        String expect = getCurrentKaptcha();
         if (!kaptcha.equalsIgnoreCase(expect)) {
             return generateErrorMap("code", "验证码错误");
         }
@@ -67,6 +78,7 @@ public class UserService {
             return generateErrorMap("repeat-password", "两次输入的密码不一致");
         }
 
+        /*检查邮箱是否占用*/
         UserBean ub = userDAO.findUserByUsername(map.get("username"));
         if (ub != null) {
             return generateErrorMap("username", "邮箱已被使用");
@@ -78,29 +90,32 @@ public class UserService {
         return userDAO.findUserById(uid);
     }
 
-    @Transactional
     public void updateUser(UserBean ub) {
         userDAO.update(ub);
         this.cleanUserBeanCache(ub.getId());
     }
 
-
     @CacheEvict(key = "#id")
     public void cleanUserBeanCache(Long id) { }
 
+    /**
+     * 生成错误信息
+     * @param field 发生错误的字段
+     * @param msg 发生错误的信息
+     * @return
+     */
     private Map generateErrorMap(String field, String msg) {
-        Map json = new HashMap<String, String>();
+        Map json = new LinkedHashMap();
         json.put("status", false);
         json.put("errorMsg", msg);
         json.put("errorField", field);
         return json;
     }
 
-    private Map checkNull(Object str, String field, String msg) {
-        if (StringUtils.isEmpty(str)) {
-            return generateErrorMap(field, msg);
-        }
-        return null;
+
+
+    public Long getCurrentUserId(){
+        return GlobalVariableHolder.getCurrentUserId();
     }
 
 

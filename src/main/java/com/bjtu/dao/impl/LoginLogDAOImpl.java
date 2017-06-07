@@ -27,13 +27,13 @@ public class LoginLogDAOImpl implements LoginLogDAO {
 
     @Override
     public List<LoginLog> getLoginlogs(Long uid) {
-        Query query = entityManager.createQuery("SELECT log FROM LoginLog log where log.userBean.id = :uid ORDER BY log.id DESC",LoginLog.class);
-        query.setParameter("uid",uid);
+        Query query = entityManager.createQuery("SELECT log FROM LoginLog log where log.userBean.id = :uid ORDER BY log.id DESC", LoginLog.class);
+        query.setParameter("uid", uid);
         query.setMaxResults(10);
         List<LoginLog> rs = query.getResultList();
-        if(rs.isEmpty()){
+        if (rs.isEmpty()) {
             return null;
-        }else{
+        } else {
             return rs;
         }
     }

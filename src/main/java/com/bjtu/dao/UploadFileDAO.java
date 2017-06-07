@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface UploadFileDAO {
 
-    void save(UploadRecordBean upb);
+    void save(UploadRecordBean urb);
 
     void save(UploadRecordBean upb, Long uid);
 

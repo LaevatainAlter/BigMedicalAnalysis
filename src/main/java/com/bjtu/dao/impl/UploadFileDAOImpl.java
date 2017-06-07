@@ -4,7 +4,6 @@ import com.bjtu.bean.UploadRecordBean;
 import com.bjtu.bean.UserBean;
 import com.bjtu.dao.UploadFileDAO;
 import com.bjtu.dao.UserDAO;
-import com.bjtu.util.GlobalVariableHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -28,10 +27,11 @@ public class UploadFileDAOImpl implements UploadFileDAO {
     UserDAO userDAO;
 
     @Override
-    public void save(UploadRecordBean upb) {
-        UserBean ub = userDAO.findUserById(GlobalVariableHolder.getCurrentUserId());
-        upb.setUserBean(ub);
-        em.persist(upb);
+    public void save(UploadRecordBean urb) {
+        if(urb.getUserBean()==null){
+            throw new NullPointerException();
+        }
+        em.persist(urb);
     }
 
     @Override

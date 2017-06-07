@@ -38,7 +38,7 @@ public class JpaTest {
     public void insertRecord(){
         UserBean ub = new UserBean();
         ub.setUsername("343750470@qq.com");
-        ub.setNickname("Gimling");
+        ub.setNickname("Gimling");ub.setNickname("Gimling");
         ub.setPassword(passwordEncoder.encodePassword("123456",null));
         UserInfoBean uib = new UserInfoBean();
         uib.setUserPhone("17801020520");
@@ -49,7 +49,6 @@ public class JpaTest {
         uib.setUserBean(ub);
         entityManager.persist(uib);
         entityManager.persist(ub);
-
         entityManager.flush();
     }
 

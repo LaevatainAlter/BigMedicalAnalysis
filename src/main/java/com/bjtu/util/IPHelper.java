@@ -14,6 +14,11 @@ import java.util.Map;
 //ip类
 public class IPHelper {
 
+    /**
+     * 获取HttpServletRequest的真实IP
+     * @param request
+     * @return
+     */
     public static String getRealIp(HttpServletRequest request){
         String ip = request.getHeader("X-Real-IP");
         if (!StringUtils.isEmpty(ip) && !"unknown".equalsIgnoreCase(ip)) {
@@ -32,6 +37,12 @@ public class IPHelper {
         }
     }
 
+    /**
+     * 调用接口查询ip的定位信息
+     * @param ip ip字符串
+     * @return
+     * @throws IOException
+     */
     public static String getIpLocation(String ip) throws IOException {
         String urlStr = "http://ip.taobao.com/service/getIpInfo.php";
         ObjectMapper om = new ObjectMapper();

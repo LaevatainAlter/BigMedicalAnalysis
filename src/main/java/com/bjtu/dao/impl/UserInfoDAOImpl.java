@@ -28,6 +28,10 @@ public class UserInfoDAOImpl implements UserInfoDAO {
     @Override
     @Transactional
     public void saveUserInfoBean(UserInfoBean uib) {
-         entityManager.merge(uib);
+        if(uib.getId()==null){
+            entityManager.persist(uib);
+        }else{
+            entityManager.merge(uib);
+        }
     }
 }

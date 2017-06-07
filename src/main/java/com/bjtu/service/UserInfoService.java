@@ -1,6 +1,7 @@
 package com.bjtu.service;
 
 import com.bjtu.bean.UserInfoBean;
+import com.bjtu.dao.UserDAO;
 import com.bjtu.dao.UserInfoDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,12 +17,21 @@ public class UserInfoService {
     @Autowired
     UserInfoDAO userInfoDAO;
 
+    @Autowired
+    UserDAO userDAO;
+
     public UserInfoBean getUserInfoByUID(Long uid){
-        UserInfoBean uib = userInfoDAO.getUserInfoByUserId(uid);
-        return uib;
+        UserInfoBean uib = userDAO.findUserById(uid).getUserInfoBean();
+        if(uib==null){
+            uib = new UserInfoBean();
+            uib.setUserBean(userDAO.findUserById(uid));
+            userDAO.findUserById(uid).setUserInfoBean(uib);
+        }
+        return  uib;
     }
 
-    public void saveUserInfo(UserInfoBean uib){
+    public void saveUserInfo(Long uid,UserInfoBean uib){
+        userDAO.findUserById(uid).setUserInfoBean(uib);
         userInfoDAO.saveUserInfoBean(uib);
     }
 }
