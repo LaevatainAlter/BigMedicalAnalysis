@@ -6,56 +6,80 @@
 	<link rel="stylesheet" href="../res/css/reset.css"/>
 	<link rel="stylesheet" href="../res/css/font-awesome.min.css"/>
 	<link rel="stylesheet" href="../res/css/content.css"/>
+	<script src="../res/js/d3.v4.min.js"></script>
 </head>
 <body>
 	<!-- <div class="delete-container">
 		<div class="delete-content"> -->
-			<div class="data-list-container" ng-controller="listCtrl">
-				<div class="list" ng-repeat="item in historyList">
+		<div ng-controller="listCtrl">
+			<div class="data-list-container" ng-show="!toDetail">
+				<div class="filterList">
+					<input type="text" ng-model="filterList"/>
+					<input type="button" value="搜索" ng-click="toFilterList(filterList)"/>
+				</div>
+				<div class="list" ng-repeat="item in historyList" ng-click="goDetail(item.historyId)">
 					<span>{{item.historyTime + item.historyName}}</span>
 					<i class="fa fa-angle-right"></i>
 				</div>
-				<!-- <div class="list">
-					<span>2017-4-10-13-30-20第十个名字</span>
-					<i class="fa fa-angle-right"></i>
-				</div>
-				<div class="list">
-					<span>2017-4-9-13-30-20第九个名字</span>
-					<i class="fa fa-angle-right"></i>
-				</div>
-				<div class="list">
-					<span>2017-4-8-13-30-20第八个名字</span>
-					<i class="fa fa-angle-right"></i>
-				</div>
-				<div class="list">
-					<span>2017-4-7-13-30-20第七个名字</span>
-					<i class="fa fa-angle-right"></i>
-				</div>
-				<div class="list">
-					<span>2017-4-6-13-30-20第六个名字</span>
-					<i class="fa fa-angle-right"></i>
-				</div>
-				<div class="list">
-					<span>2017-4-5-13-30-20第五个名字</span>
-					<i class="fa fa-angle-right"></i>
-				</div>
-				<div class="list">
-					<span>2017-4-4-13-30-20第四个名字</span>
-					<i class="fa fa-angle-right"></i>
-				</div>
-				<div class="list">
-					<span>2017-4-3-13-30-20第三个名字</span>
-					<i class="fa fa-angle-right"></i>
-				</div>
-				<div class="list">
-					<span>2017-4-2-13-30-20第二个名字</span>
-					<i class="fa fa-angle-right"></i>
-				</div>
-				<div class="list">
-					<span>2017-4-1-13-30-20第一个名字</span>
-					<i class="fa fa-angle-right"></i>
-				</div> -->
 			</div>
+			<div class="data-show-container" ng-show="toDetail">
+				<div class="return">
+					<button ng-click="toReturn()">返回</button>
+				</div>
+				<div class="data-show-result">
+					<div id="data-show-heart-rate">
+						<div class="data-show-chart">
+
+						</div>
+						<div class="filterParam">
+							<span>过滤点:</span>
+							<input type="number" max="20" min="1" ng-model="filterParam1" ng-change="filterParamChgLine(filterParam1, circleR1, grid1, assist1)"/>
+							<span>点半径:</span>
+							<input type="number" max="5" min="0" ng-model="circleR1" ng-change="filterParamChgLine(filterParam1, circleR1, grid1, assist1)"/>
+							<span>是否需要网格背景:</span>
+							<input type="checkbox" ng-model="grid1" ng-change="filterParamChgLine(filterParam1, circleR1, grid1, assist1)"/>
+							<span>是否需要辅助线:</span>
+							<input type="checkbox" ng-model="assist1" ng-change="filterParamChgLine(filterParam1, circleR1, grid1, assist1)"/>
+						</div>
+						<table>
+							<tr>
+								<th>评估指标</th>
+								<th>取值</th>
+								<th>提示</th>
+								<th>参考范围</th>
+							</tr>
+							<tr ng-repeat="item in outcome1">
+								<td>{{item.name}}</td>
+								<td>{{item.value}}</td>
+								<td><i class="fa" ng-class="(item.prompt==1) ? 'fa-arrow-up' : (item.prompt==-1) ? 'fa-arrow-down' : (item.prompt==0) ? 'fa-minus' : ''"></i></td>
+								<td>{{item.range}}</td>
+							</tr>
+						</table>
+					</div>
+					<div id="data-show-poincare">
+						<div class="data-show-chart">
+
+						</div>
+						<div class="filterParam">
+							<span>过滤点:</span>
+							<input type="number" max="20" min="1" ng-model="filterParam2" ng-change="filterParamChgScatter(filterParam2, circleR2, grid2)"/>
+							<span>点半径:</span>
+							<input type="number" max="5" min="1" ng-model="circleR2" ng-change="filterParamChgScatter(filterParam2, circleR2, grid2)"/>
+							<span>是否需要网格背景:</span>
+							<input type="checkbox" ng-model="grid2" ng-change="filterParamChgScatter(filterParam2, circleR2, grid2)"/>
+						</div>
+						<table>
+
+						</table>
+					</div>
+					<div id="data-show-pie">
+						<div class="data-show-chart">
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 		<!-- </div>
 	</div> -->
 </body>
