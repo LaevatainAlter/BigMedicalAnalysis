@@ -4,10 +4,10 @@ import com.bjtu.algorithm.ecg.algorithm.ECGAnlysis;
 import com.bjtu.bean.UploadRecordBean;
 import com.bjtu.dao.UploadFileDAO;
 import com.bjtu.dao.UserDAO;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,14 +15,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 import static com.bjtu.service.JsonService.fromJson;
+import static com.bjtu.service.JsonService.writeJsonToFile;
 
 /**
  * Created by gimling on 17-6-4.
@@ -32,10 +28,8 @@ public class UploadFileService {
 
     private final static Logger logger = LoggerFactory.getLogger(UploadFileService.class);
 
-    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-M-d");
-
-    public Map processFile(MultipartFile file, String webRoot, String patientName, String patientTime, Long uid) throws IOException, ParseException {
-        ObjectMapper om = new ObjectMapper();
+    /*处理文件*/
+    public Map processFile(MultipartFile file, String webRoot, String patientName, Date patientTime, Long uid) throws IOException {
         String root = webRoot + "upload" + File.separator + "file" + File.separator;
         File userDir = new File(root);
         if (!userDir.exists()) {
@@ -67,12 +61,11 @@ public class UploadFileService {
             json.put("scatterPlot", ecg.getRRDistance());
             json.put("outcome", ecg.getNumerics());
             File dataFile = new File(userDir + File.separator + uuid + ".data");
-            om.writeValue(dataFile,json);
             UploadRecordBean urb = new UploadRecordBean(file.getOriginalFilename(),uuid,userDAO.findUserById(uid));
             urb.setAnalysis(true);
             urb.setPatientName(patientName);
-            urb.setPatientDate(simpleDateFormat.parse(patientTime));
-            uploadFileDAO.save(urb);
+            urb.setPatientDate(patientTime);
+            asyncSaver(dataFile,json,urb);
             return json;
         } catch (IOException e) {
             logger.error("文件解析失败，uid:{}", uid);
@@ -82,7 +75,13 @@ public class UploadFileService {
         }
     }
 
+    @Async
+    public void asyncSaver(File file,Map json,UploadRecordBean urb){
+        writeJsonToFile(file,json);
+        uploadFileDAO.save(urb);
+    }
 
+    /*获取上传历史*/
     public List getUploadList(Long uid, String query) {
         if (query == null || query.isEmpty()) {
             return uploadFileDAO.getUploadRecords(uid);
@@ -91,6 +90,7 @@ public class UploadFileService {
         }
     }
 
+    /*通过病例ID获取历史信息*/
     public Map getFileById(Long id,String webRoot,Long uid) throws IOException {
         Map json = new LinkedHashMap();
         UploadRecordBean urb = uploadFileDAO.getUploadRecordById(id);

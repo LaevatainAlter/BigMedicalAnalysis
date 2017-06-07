@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 
 /**
  * Created by gimling on 17-6-7.
@@ -55,5 +56,16 @@ public class JsonService {
             logger.error(e.getLocalizedMessage());
         }
         return null;
+    }
+
+    public static boolean writeJsonToFile(File file,Map json)  {
+        try {
+            om.writeValue(file,json);
+            return true;
+        } catch (IOException e) {
+            logger.info(e.getMessage());
+            logger.error(e.getLocalizedMessage());
+            return false;
+        }
     }
 }

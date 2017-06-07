@@ -7,7 +7,6 @@ import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScans;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 
 /**
@@ -21,7 +20,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
         @ComponentScan("com.bjtu.config")
 })
 @EntityScan(basePackages = {"com.bjtu.bean"})
-@EnableJpaRepositories(basePackages = {"com.bjtu.dao"})
 @EnableCaching
 public class SpringBoot extends SpringBootServletInitializer {
 

@@ -43,6 +43,7 @@ public class PatientInfoCtrl {
         return json;
     }
 
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-M-d");
 
     /**
      * 处理文件上传
@@ -58,7 +59,16 @@ public class PatientInfoCtrl {
                           @RequestParam(value = "patientName", required = false, defaultValue = "") String patientName,
                           @RequestParam(value = "patientDate", required = false, defaultValue = "") String patientDate,
                           HttpServletRequest request) throws IOException, ParseException {
-        return uploadFileService.processFile(file, request.getRealPath("/"), patientName, patientDate, GlobalVariableHolder.getCurrentUserId());
+        Map json = new LinkedHashMap();
+        Date date = null;
+        try {
+            date = simpleDateFormat.parse(patientDate);
+        } catch (ParseException e) {
+            json.put("errMsg","时间格式错误");
+            json.put("errField","patientDate");
+            return json;
+        }
+        return uploadFileService.processFile(file, request.getRealPath("/"), patientName, date, GlobalVariableHolder.getCurrentUserId());
     }
 
     @PostMapping(path = "/getRecordDetail")

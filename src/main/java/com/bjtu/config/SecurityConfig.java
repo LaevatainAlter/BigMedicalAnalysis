@@ -29,7 +29,6 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.header.HeaderWriter;
 import org.springframework.security.web.header.HeaderWriterFilter;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
@@ -42,6 +41,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.bjtu.service.JsonService.toJson;
 
 /**
  * Created by Gimling on 2017/4/7.
@@ -74,7 +75,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements Auth
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/WEB-INF/**","/res/**","/kaptcha");
+
     }
 
 
@@ -87,7 +88,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements Auth
         http.formLogin().failureHandler(this);
         http.logout().logoutUrl("/logout")
                 // 登陆成功后跳转的地址，以及删除的cookie名称
-                .and().logout().logoutSuccessUrl("/")
+                .and().logout().logoutSuccessUrl("/login")
                 .and().logout().deleteCookies("JSESSIONID");
         http.rememberMe().tokenValiditySeconds(1209600)
                 .and().rememberMe().rememberMeParameter("remember-me");
@@ -114,8 +115,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements Auth
         http.addFilter(headerFilter);
     }
 
+    /*登录成功处理*/
     @Override
-    @Transactional
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         UserBean ub = userDAO.findUserById(GlobalVariableHolder.getCurrentUserId());
         try {
@@ -127,14 +128,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements Auth
         }catch (Exception e){
             logger.error(e.getLocalizedMessage());
         }
-        ObjectMapper om = new ObjectMapper();
         Map json = new HashMap();
-
         json.put("status",true);
-        response.getWriter().write(om.writeValueAsString(json));
+        response.getWriter().write(toJson(json));
     }
 
-
+    /*登录失败处理*/
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         HttpSession session = request.getSession();
@@ -154,7 +153,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements Auth
         response.getWriter().write(om.writeValueAsString(json));
         response.getWriter().flush();;
     }
-
 
     /**
      *
