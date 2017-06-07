@@ -1,0 +1,74 @@
+@startuml
+
+interface LoginLogDAO{
+    + saveLoginLog(LoginLog ll):void
+    + getLoginlogs(Long uid):List<LoginLog>
+}
+
+interface UploadFileDAO {
+    + save(UploadRecordBean urb):void
+    + save(UploadRecordBean upb, Long uid):void
+    + getUploadRecords(Long uid):List
+    + getUploadRecords(Long uid,String query):List
+    + getUploadRecordById(Long id):UploadRecordBean
+}
+
+ interface UserDAO{
+    + findUserByName(String name):UserBean
+    + findUserByUsername(String name):UserBean
+    + findUserByNickname(String name):UserBean
+    + saveUserBean(UserBean ub):Boolean
+    + findUserById(Long id):UserBean
+    + update(UserBean ub):void
+}
+
+interface UserInfoDAO {
+     + getUserInfoByUserId(Long userId):UserInfoBean
+     + saveUserInfoBean(UserInfoBean uib):void
+}
+
+
+HibernateJpaAutoConfiguration<|---- LoginLogDAO
+HibernateJpaAutoConfiguration<|---- UploadFileDAO
+HibernateJpaAutoConfiguration<|---- UserDAO
+HibernateJpaAutoConfiguration<|---- UserInfoDAO
+LoginLogDAO<|----LoginLogDAOImpl
+UploadFileDAO<|----UploadFileDAOImpl
+UserDAO<|----UserDAOImpl
+UserInfoDAO<|----UserInfoDAOImpl
+
+class UserBean{
+    - id : Long
+    - username : String
+    - nickname : String
+    - password : String;
+    - enabled : Boolean;
+    - createTime : Date
+    - role : String
+    - userInfoBean : UserInfoBean
+    - loginLog : List<LoginLog>
+    - UploadRecords : List<UploadRecordBean>
+}
+
+ class LoginLog {
+    - id : Long
+    - userBean:UserBean
+    - recordTime : Date
+    - recordIP:String
+    - recordPosition : String
+}
+
+class UploadRecordBean {
+    - id : Long
+    - originName : String
+    - uuid : String
+    - name : String
+    - patientName : String
+    - userBean:UserBean
+    - date : Date
+    - patientDate : Date
+    - isAnalysis : Boolean
+    - enabled : Boolean
+}
+
+@enduml

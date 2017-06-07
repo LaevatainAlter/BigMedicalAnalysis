@@ -1,7 +1,5 @@
 package com.bjtu.servlet;
 
-import com.google.code.kaptcha.servlet.KaptchaServlet;
-
 import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
 
@@ -14,7 +12,7 @@ import javax.servlet.annotation.WebServlet;
                 @WebInitParam(name = "kaptcha.textproducer.font.names", value = "彩云,宋体,楷体,微软雅黑"),
                 @WebInitParam(name = "kaptcha.obscurificator.impl", value = "com.google.code.kaptcha.impl.ShadowGimpy")
         })
-public class KaptchaConfig extends KaptchaServlet {
+public class KaptchaServlet extends com.google.code.kaptcha.servlet.KaptchaServlet {
 
 
 }

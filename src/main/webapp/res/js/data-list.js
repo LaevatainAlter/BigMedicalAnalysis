@@ -64,22 +64,13 @@ angular.module('homeApp').controller('listCtrl', function($scope, $http){
 	}
 
 	$scope.goDetail = function (id) {
-		$http.post('/getRecordDetail', {
-			'historyId': id
-		}).then(function(req){
-			console.log(req.data);
-			$scope.toDetail = true;
-			$scope.drawChart();
-		}, function(error){
-
-		});
+		$scope.drawChart(id);
 	};
 
-	$scope.drawChart = function () {
-		$http({
-			url: '/upload/Alice/data/data.json',
-			method: 'GET'
-		}).then(function(req){
+	$scope.drawChart = function (id) {
+        $http.post('/getRecordDetail', {
+            'historyId': id
+        }).then(function(req){
 			for(let i = 0; i < req.data.lineChart.length; i++){
 				datasetOrigin1.push({
 					x: i,
@@ -96,6 +87,7 @@ angular.module('homeApp').controller('listCtrl', function($scope, $http){
 			$scope.filterParamChgScatter($scope.filterParam2, $scope.circleR2, $scope.grid2);
 			$scope.outcome1 = req.data.outcome;
 			$scope.drawPie();
+            $scope.toDetail = true;
 		});
 	};
 	$scope.filterParamChgLine = function (filterParam, circleR, hasGrid, assist) {

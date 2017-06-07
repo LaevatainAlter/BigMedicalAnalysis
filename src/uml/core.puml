@@ -1,0 +1,15 @@
+@startuml
+
+SpringBoot<|---- WebMvcAutoConfiguration
+SpringBoot<|---- TransactionAutoConfiguration
+SpringBoot<|---- ThymeleafAutoConfiguration
+SpringBoot<|----WebSecurityConfigurerAdapter
+WebSecurityConfigurerAdapter<|----SecurityConfig
+SpringBoot<|---- SessionAutoConfiguration
+SpringBoot<|---- DataSource
+SpringBoot<|----SecurityAutoConfiguration
+SpringBoot<|----MultipartAutoConfiguration
+SpringBoot<|----HibernateJpaAutoConfiguration
+SpringBoot<|----DataSourceAutoConfiguration
+SpringBoot<|----AsyncConfig
+@enduml

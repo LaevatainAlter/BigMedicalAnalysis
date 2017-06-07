@@ -1,0 +1,15 @@
+@startuml
+WebMvcAutoConfiguration<|----- IndexCtrl
+WebMvcAutoConfiguration<|----- EntranceCtrl
+WebMvcAutoConfiguration<|----- PatientInfoCtrl
+WebMvcAutoConfiguration<|----- UserInfoCtrl
+WebMvcAutoConfiguration<|----- JsonService
+WebMvcAutoConfiguration<|----- LoginLogService
+WebMvcAutoConfiguration<|----- UploadFileService
+WebMvcAutoConfiguration<|----- UserInfoService
+WebMvcAutoConfiguration<|----- UserService
+WebMvcAutoConfiguration<|----- DruidStateFilter
+WebMvcAutoConfiguration<|----- DruidStatViewServlet
+WebMvcAutoConfiguration<|----- KaptchaServlet
+
+@enduml

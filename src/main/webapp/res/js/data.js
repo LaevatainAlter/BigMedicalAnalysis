@@ -17,42 +17,18 @@ angular.module('homeApp').controller('dataCtrl', function($scope, $http, Upload)
 	$scope.outcome1 = {};
 
 	$scope.toSubmit = function() {
-		Upload.upload({
-			url: '/toUploadFile',
-			data: {
-				'patientName': $scope.patientName,
-				'patientDate': $scope.patientDate,
-				'file': $scope.file
-			}
-		}).then(function (resp) {
-			$scope.noResult = false;
-			$scope.drawChart();
-		}, function (resp) {
-		  console.log('Error status');
-		});
+        $scope.drawChart();
 	};
 
 	$scope.drawChart = function () {
-		// $http({
-		// 	url: '/upload/Alice/data/out.txt',
-		// 	method: 'GET',
-		// 	responseType: 'arraybuffer'
-		// }).then(function(req){
-		// 	let dataview = new DataView(req.data);
-		// 	let ints = new Uint8ClampedArray(req.data.byteLength);
-		// 	for (var i = 0; i < ints.length; i++) {
-    //   	ints[i] = dataview.getUint8(i);
-    //     datasetOrigin1[i] = {
-		// 			x: i,
-		// 			y: ints[i]
-		// 		};
-    //   }
-		// 	$scope.filterParamChgLine($scope.filterParam1, $scope.circleR1, $scope.grid1, $scope.assist1);
-		// });
-		$http({
-			url: '/upload/Alice/data/data.json',
-			method: 'GET'
-		}).then(function(req){
+        Upload.upload({
+            url: '/toUploadFile',
+            data: {
+                'patientName': $scope.patientName,
+                'patientDate': $scope.patientDate,
+                'file': $scope.file
+            }
+        }).then(function(req){
 			for(let i = 0; i < req.data.lineChart.length; i++){
 				datasetOrigin1.push({
 					x: i,
@@ -74,6 +50,7 @@ angular.module('homeApp').controller('dataCtrl', function($scope, $http, Upload)
 				['正常时间', (100-36.47-10.57)]
 			];
 			$scope.drawPie(datasetPie1);
+            $scope.noResult = false;
 		});
 	};
 	$scope.filterParamChgLine = function (filterParam, circleR, hasGrid, assist) {

@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface LoginLogDAO {
 
-    public void saveLoginLog(LoginLog ll);
+    void saveLoginLog(LoginLog ll);
 
-    public List<LoginLog> getLoginlogs(Long uid);
+    List<LoginLog> getLoginlogs(Long uid);
 }
