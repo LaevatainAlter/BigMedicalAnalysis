@@ -18,10 +18,19 @@
 			<div class="data-show-container" ng-controller="dataCtrl">
 				<div class="data-show-info" ng-show="noResult">
 					<form>
-						<input type="file" ngf-select name="file" ng-model="file"/>
-						<span>患者名字：</span><input type="text" name="patientName" ng-model="patientName"/>
-						<span>患者日期：</span><input type="text" name="patientDate" ng-model="patientDate"/>
-						<button ng-click="toSubmit()">提交</button>
+						<div class="to-file">选择上传
+							<input type="file" ngf-select name="file" ng-model="file"/>
+						</div>
+						<div class="to-input">
+							<span>患者名字：</span><input type="text" name="patientName" ng-model="patientName"/>
+						</div>
+						<div class="to-input">
+							<span>患者日期：</span><input type="text" name="patientDate" ng-model="patientDate"/>
+						</div>
+						<div class="to-submit">
+							<!-- <button ng-click="toSubmit()">提交</button> -->
+							<input type="button" value="提交" ng-click="toSubmit()"/>
+						</div>
 					</form>
 				</div>
 				<div class="data-show-result" ng-show="!noResult">

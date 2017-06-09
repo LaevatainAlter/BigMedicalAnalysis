@@ -86,7 +86,12 @@ angular.module('homeApp').controller('listCtrl', function($scope, $http){
 			$scope.filterParamChgLine($scope.filterParam1, $scope.circleR1, $scope.grid1, $scope.assist1);
 			$scope.filterParamChgScatter($scope.filterParam2, $scope.circleR2, $scope.grid2);
 			$scope.outcome1 = req.data.outcome;
-			$scope.drawPie();
+			var datasetPie1 = [
+				[$scope.outcome1[1]['name'], $scope.outcome1[1]['value'].substr(0,$scope.outcome1[1]['value'].length - 1)],
+				[$scope.outcome1[2]['name'], $scope.outcome1[2]['value'].substr(0,$scope.outcome1[2]['value'].length - 1)],
+				['正常时间', (100-parseFloat($scope.outcome1[1]['value'].substr(0,$scope.outcome1[1]['value'].length - 1))-parseFloat($scope.outcome1[2]['value'].substr(0,$scope.outcome1[2]['value'].length - 1)))]
+			];
+			$scope.drawPie(datasetPie1);
             $scope.toDetail = true;
 		});
 	};
@@ -289,8 +294,7 @@ angular.module('homeApp').controller('listCtrl', function($scope, $http){
 			})
 			.attr('fill', 'rgb(84, 172, 174)');
 	};
-	$scope.drawPie = function () {
-		var dataset = [['第1个', 72.5], ['第2个', 5.3], ['第3个', 16.3], ['第4个', 3.5], ['第5个', 1.0], ['第6个', 1.4]];
+	$scope.drawPie = function (dataset) {
 		var pie = d3.pie()
 								.sort(null)
 								.value(function(d){

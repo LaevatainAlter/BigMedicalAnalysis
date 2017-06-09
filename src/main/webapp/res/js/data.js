@@ -45,9 +45,9 @@ angular.module('homeApp').controller('dataCtrl', function($scope, $http, Upload)
 			$scope.filterParamChgScatter($scope.filterParam2, $scope.circleR2, $scope.grid2);
 			$scope.outcome1 = req.data.outcome;
 			var datasetPie1 = [
-				[$scope.outcome1[1]['name'], 36.47],
-				[$scope.outcome1[2]['name'], 10.57],
-				['正常时间', (100-36.47-10.57)]
+				[$scope.outcome1[1]['name'], $scope.outcome1[1]['value'].substr(0,$scope.outcome1[1]['value'].length - 1)],
+				[$scope.outcome1[2]['name'], $scope.outcome1[2]['value'].substr(0,$scope.outcome1[2]['value'].length - 1)],
+				['正常时间', (100-parseFloat($scope.outcome1[1]['value'].substr(0,$scope.outcome1[1]['value'].length - 1))-parseFloat($scope.outcome1[2]['value'].substr(0,$scope.outcome1[2]['value'].length - 1)))]
 			];
 			$scope.drawPie(datasetPie1);
             $scope.noResult = false;
