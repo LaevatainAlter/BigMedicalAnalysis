@@ -5,7 +5,6 @@ import com.bjtu.config.SecurityConfig;
 import com.bjtu.dao.UserDAO;
 import com.bjtu.util.GlobalVariableHolder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -90,13 +89,9 @@ public class UserService {
         return userDAO.findUserById(uid);
     }
 
-    public void updateUser(UserBean ub) {
-        userDAO.update(ub);
-        this.cleanUserBeanCache(ub.getId());
+    public boolean updateUser(UserBean ub) {
+        return userDAO.update(ub);
     }
-
-    @CacheEvict(key = "#id")
-    public void cleanUserBeanCache(Long id) { }
 
     /**
      * 生成错误信息
@@ -111,8 +106,6 @@ public class UserService {
         json.put("errorField", field);
         return json;
     }
-
-
 
     public Long getCurrentUserId(){
         return GlobalVariableHolder.getCurrentUserId();

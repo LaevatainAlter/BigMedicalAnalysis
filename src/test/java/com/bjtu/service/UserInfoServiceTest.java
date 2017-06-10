@@ -13,16 +13,20 @@ import org.springframework.test.context.junit4.SpringRunner;
 import javax.transaction.Transactional;
 import java.util.Date;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 /**
  * Created by gimling on 17-6-7.
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = SpringBoot.class,webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = SpringBoot.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@Transactional
 public class UserInfoServiceTest {
+
     @Test
-    public void saveUserInfo1() throws Exception {
+    public void saveUserInfo1()  {
+
     }
 
     @Autowired
@@ -31,34 +35,43 @@ public class UserInfoServiceTest {
     @Autowired
     UserService us;
 
+    UserBean ub1;
+
+    UserBean ub2;
+
 
     @Before
     public void setUp() throws Exception {
+        ub1 = new UserBean("1asdfasd","asdasd");
+        ub1.setUserInfoBean(new UserInfoBean());
+        us.updateUser(ub1);
+
+        ub2 = new UserBean("1asdfasd","asdasd");
+        us.updateUser(ub2);
     }
 
     @Test(expected = NullPointerException.class)
     public void getUserInfoByUID1() throws Exception {
-        uis.getUserInfoByUID(100L);
+        assertNotNull(uis.getUserInfoByUID(ub1.getId()));
     }
 
     @Test()
     public void getUserInfoByUID2() throws Exception {
-        assertNull(uis.getUserInfoByUID(1L));
+        assertNull(uis.getUserInfoByUID(ub2.getId()));
     }
 
     @Test
-    @Transactional
     public void saveUserInfo() throws Exception {
         UserBean ub = us.findUserById(1L);
         assertNull(ub.getUserInfoBean());
         UserInfoBean uib = new UserInfoBean();
         uib.setUserPhone("123123");
         uib.setUserBean(ub);
-        uis.saveUserInfo(1L,uib);
+        uis.saveUserInfo(1L, uib);
         ub.setUserInfoBean(uib);
         uib = us.findUserById(1L).getUserInfoBean();
         uib.setUserBirth(new Date());
-        uis.saveUserInfo(1L,uib);
+        uis.saveUserInfo(1L, uib);
     }
 
 }

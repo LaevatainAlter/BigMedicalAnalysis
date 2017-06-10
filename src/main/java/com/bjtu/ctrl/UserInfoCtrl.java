@@ -1,6 +1,6 @@
 package com.bjtu.ctrl;
 
-import com.bjtu.bean.LoginLog;
+import com.bjtu.bean.LoginLogBean;
 import com.bjtu.bean.UserBean;
 import com.bjtu.bean.UserInfoBean;
 import com.bjtu.service.LoginLogService;
@@ -203,9 +203,9 @@ public class UserInfoCtrl {
     @ResponseBody
     public Map getLoginRecord() {
         Map json = new HashMap();
-        List<LoginLog> logs = null;
+        List<LoginLogBean> logs = null;
         logs = loginLogService.getLoginLogs(GlobalVariableHolder.getCurrentUserId());
-        Iterator<LoginLog> it = logs.iterator();
+        Iterator<LoginLogBean> it = logs.iterator();
         while (it.hasNext()) {
             it.next().setUserBean(null);
         }

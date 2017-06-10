@@ -15,7 +15,7 @@ import java.util.Date;
 public class UserInfoBean implements Serializable{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     /**

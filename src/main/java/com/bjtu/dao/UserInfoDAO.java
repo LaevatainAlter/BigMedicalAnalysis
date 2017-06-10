@@ -7,8 +7,6 @@ import com.bjtu.bean.UserInfoBean;
  */
 public interface UserInfoDAO {
 
-    UserInfoBean getUserInfoByUserId(Long userId);
-
     void saveUserInfoBean(UserInfoBean uib);
 
 }

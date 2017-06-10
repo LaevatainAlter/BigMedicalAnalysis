@@ -1,6 +1,6 @@
 package com.bjtu.service;
 
-import com.bjtu.bean.LoginLog;
+import com.bjtu.bean.LoginLogBean;
 import com.bjtu.dao.LoginLogDAO;
 import com.bjtu.dao.UserDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,11 +27,11 @@ public class LoginLogService {
     EntityManager entityManager;
 
 
-    public List<LoginLog> getLoginLogs(Long userid){
+    public List<LoginLogBean> getLoginLogs(Long userid){
         return loginLogDAO.getLoginlogs(userid);
     }
 
-    public void log(LoginLog ll){
+    public void log(LoginLogBean ll){
         loginLogDAO.saveLoginLog(ll);
     }
 

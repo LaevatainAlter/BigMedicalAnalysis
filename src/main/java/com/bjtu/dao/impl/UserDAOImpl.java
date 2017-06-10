@@ -4,6 +4,7 @@ import com.bjtu.bean.UserBean;
 import com.bjtu.dao.UserDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +18,7 @@ import java.util.List;
  * Created by gimling on 17-4-20.
  */
 @Repository
+@Transactional
 public class UserDAOImpl implements UserDAO {
 
     private final static Logger logger = LoggerFactory.getLogger(UserDAOImpl.class);
@@ -61,20 +63,30 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    @Transactional
     public Boolean saveUserBean(UserBean ub) {
         entityManager.persist(ub);
         return true;
     }
 
     @Override
-    @Cacheable(value = "userCache",key = "#id")
+    @Cacheable(cacheNames = "userCache",key = "#id")
     public UserBean findUserById(Long id) {
-        return entityManager.find(UserBean.class,id);
+        UserBean ub = entityManager.find(UserBean.class,id);
+        entityManager.detach(ub);
+        return ub;
     }
 
     @Override
-    public void update(UserBean ub) {
+    @CacheEvict(cacheNames = "userCache",key = "#ub.id")
+    public boolean update(UserBean ub) {
+        if(ub.getUserInfoBean()!=null){
+            if(ub.getUserInfoBean().getId()==null){
+                entityManager.persist(ub.getUserInfoBean());
+            }else{
+                entityManager.merge(ub.getUserInfoBean());
+            }
+        }
         entityManager.merge(ub);
+        return true;
     }
 }

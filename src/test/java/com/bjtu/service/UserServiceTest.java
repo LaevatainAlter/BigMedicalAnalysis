@@ -1,12 +1,12 @@
 package com.bjtu.service;
 
 import com.bjtu.config.SpringBoot;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -19,17 +19,13 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = SpringBoot.class,webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@Transactional
 public class UserServiceTest {
 
     @Autowired
     UserService us;
 
-    @Before
-    public void setUp() throws Exception {
-    }
-
     @Test
-    //@Transactional
     public void processRegister() throws Exception {
         Map map = new LinkedHashMap();
         map.put("username","17801020520@163.com");
@@ -82,20 +78,6 @@ public class UserServiceTest {
         assertEquals(expect,us.registerValidate(map));
     }
 
-    @Test
-    public void findUserById() throws Exception {
-    }
 
-    @Test
-    public void updateUser() throws Exception {
-    }
-
-    @Test
-    public void cleanUserBeanCache() throws Exception {
-    }
-
-    @Test
-    public void getCurrentUserId() throws Exception {
-    }
 
 }

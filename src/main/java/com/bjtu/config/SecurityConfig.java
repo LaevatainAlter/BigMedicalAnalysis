@@ -1,6 +1,6 @@
 package com.bjtu.config;
 
-import com.bjtu.bean.LoginLog;
+import com.bjtu.bean.LoginLogBean;
 import com.bjtu.bean.UserBean;
 import com.bjtu.dao.LoginLogDAO;
 import com.bjtu.dao.UserDAO;
@@ -120,7 +120,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements Auth
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         UserBean ub = userDAO.findUserById(GlobalVariableHolder.getCurrentUserId());
         try {
-            LoginLog loginLog = new LoginLog();
+            LoginLogBean loginLog = new LoginLogBean();
             loginLog.setRecordIP(IPHelper.getRealIp(request));
             loginLog.setRecordPosition(IPHelper.getIpLocation(loginLog.getRecordIP()));
             loginLog.setUserBean(ub);

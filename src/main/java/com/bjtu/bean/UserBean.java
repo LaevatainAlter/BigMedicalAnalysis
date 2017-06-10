@@ -41,10 +41,9 @@ public class UserBean implements Serializable {
     private UserInfoBean userInfoBean;
 
 
-    @OneToMany(targetEntity = LoginLog.class,mappedBy = "userBean",fetch = FetchType.LAZY)
+    @OneToMany(targetEntity = LoginLogBean.class,mappedBy = "userBean",fetch = FetchType.LAZY)
     @OrderBy("id desc ")
-    @Size(max=10)
-    private List<LoginLog> loginLog = new ArrayList<>();
+    private List<LoginLogBean> loginLog = new ArrayList<>();
 
     @OneToMany(targetEntity = UploadRecordBean.class,mappedBy = "userBean")
     @OrderBy("id desc ")
@@ -123,11 +122,11 @@ public class UserBean implements Serializable {
         this.userInfoBean = userInfoBean;
     }
 
-    public List<LoginLog> getLoginLog() {
+    public List<LoginLogBean> getLoginLog() {
         return loginLog;
     }
 
-    public void setLoginLog(List<LoginLog> loginLog) {
+    public void setLoginLog(List<LoginLogBean> loginLog) {
         this.loginLog = loginLog;
     }
 
@@ -142,5 +141,24 @@ public class UserBean implements Serializable {
     @Override
     public int hashCode() {
         return this.id.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof UserBean)) return false;
+
+        UserBean userBean = (UserBean) o;
+
+        if (!getId().equals(userBean.getId())) return false;
+        if (!getUsername().equals(userBean.getUsername())) return false;
+        if (!getNickname().equals(userBean.getNickname())) return false;
+        if (!getPassword().equals(userBean.getPassword())) return false;
+        if (!getEnabled().equals(userBean.getEnabled())) return false;
+        if (!getCreateTime().equals(userBean.getCreateTime())) return false;
+        if (!getRole().equals(userBean.getRole())) return false;
+        if (!getUserInfoBean().equals(userBean.getUserInfoBean())) return false;
+        if (!getLoginLog().equals(userBean.getLoginLog())) return false;
+        return getUploadRecords().equals(userBean.getUploadRecords());
     }
 }

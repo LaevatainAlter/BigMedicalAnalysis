@@ -17,11 +17,14 @@ import java.util.Map;
 @Service
 public class JsonService {
 
-    @Autowired
     private final static Logger logger = LoggerFactory.getLogger(JsonService.class);
 
-    @Autowired
     private static ObjectMapper om;
+
+    @Autowired
+    public void setObjectMapper(ObjectMapper om){
+        this.om = om;
+    }
 
     public static String toJson(Object object){
         if(om==null){

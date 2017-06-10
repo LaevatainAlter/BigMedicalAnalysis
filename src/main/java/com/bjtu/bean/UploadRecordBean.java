@@ -56,6 +56,8 @@ public class UploadRecordBean {
     public UploadRecordBean() {
     }
 
+
+
     public UploadRecordBean(String originName, String uuid, UserBean userBean) {
         this.originName = originName;
         this.uuid = uuid;
@@ -141,4 +143,5 @@ public class UploadRecordBean {
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
     }
+
 }

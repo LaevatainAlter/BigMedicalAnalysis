@@ -1,5 +1,6 @@
 package com.bjtu.service;
 
+import com.bjtu.bean.UserBean;
 import com.bjtu.bean.UserInfoBean;
 import com.bjtu.dao.UserDAO;
 import com.bjtu.dao.UserInfoDAO;
@@ -20,12 +21,14 @@ public class UserInfoService {
     @Autowired
     UserDAO userDAO;
 
+
     public UserInfoBean getUserInfoByUID(Long uid){
-        UserInfoBean uib = userDAO.findUserById(uid).getUserInfoBean();
+        UserBean ub = userDAO.findUserById(uid);
+        UserInfoBean uib =ub.getUserInfoBean();
         if(uib==null){
             uib = new UserInfoBean();
-            uib.setUserBean(userDAO.findUserById(uid));
-            userDAO.findUserById(uid).setUserInfoBean(uib);
+            uib.setUserBean(ub);
+            ub.setUserInfoBean(uib);
         }
         return  uib;
     }

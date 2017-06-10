@@ -1,6 +1,6 @@
 package com.bjtu.dao;
 
-import com.bjtu.bean.LoginLog;
+import com.bjtu.bean.LoginLogBean;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface LoginLogDAO {
 
-    void saveLoginLog(LoginLog ll);
+    boolean saveLoginLog(LoginLogBean ll);
 
-    List<LoginLog> getLoginlogs(Long uid);
+    List<LoginLogBean> getLoginlogs(Long uid);
 }
