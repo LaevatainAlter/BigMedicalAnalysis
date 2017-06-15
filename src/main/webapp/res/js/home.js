@@ -12,7 +12,7 @@ $(document).ready(function(){
 	$('.side-li:first').children().addClass('li-active');
 });
 
-angular.module('homeApp', ['ngFileUpload']).controller('homeCtrl', function($scope){
+angular.module('homeApp', ['ngFileUpload']).controller('homeCtrl', function($scope, $http){
 	$scope.mode = 'person.html';
 	$scope.chgPage = function(index){
 		if(index == 0){
@@ -22,5 +22,16 @@ angular.module('homeApp', ['ngFileUpload']).controller('homeCtrl', function($sco
 		}else if(index == 2){
 			$scope.mode = 'data-list.html';
 		}
+	};
+	
+	$scope.toLogOut = function() {
+		// $http.post('/toLogOut', {
+		//
+		// }).then(function(req){
+		//
+		// }, function(error){
+		//
+		// });
+		console.log('log out');
 	};
 });

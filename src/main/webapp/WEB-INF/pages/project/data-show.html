@@ -34,6 +34,25 @@
 					</form>
 				</div>
 				<div class="data-show-result" ng-show="!noResult">
+					<div id="data-show-info">
+						<h2>患者信息</h2>
+						<div class="data-show-info-item">
+							<div class="data-show-info-name">
+								患者名字:
+							</div>
+							<div class="data-show-info-value">
+								{{patientName}}
+							</div>
+						</div>
+						<div class="data-show-info-item">
+							<div class="data-show-info-name">
+								患者记录数据的开始时间:
+							</div>
+							<div class="data-show-info-value">
+								{{patientDate}}
+							</div>
+						</div>
+					</div>
 					<div id="data-show-heart-rate">
 						<h2>心率变化</h2>
 						<div class="data-show-chart">

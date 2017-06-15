@@ -229,6 +229,48 @@
 	height: 100%;
 }
 
+.data-show-container .data-show-info {
+
+}
+
+/*.data-show-container .data-show-info .to-file {
+    position: relative;
+    display: inline-block;
+    background: #00B4EF;
+    border-radius: 4px;
+    padding: 4px 12px;
+    overflow: hidden;
+    color: white;
+    text-decoration: none;
+    text-indent: 0;
+    line-height: 20px;
+}
+.data-show-container .data-show-info .to-file input {
+    position: absolute;
+    font-size: 100px;
+    right: 0;
+    top: 0;
+    opacity: 0;
+}
+.data-show-container .data-show-info .to-file:hover {
+    background: #7F8C9A;
+    color: #00B4EF;
+    text-decoration: none;
+}
+
+.data-show-container .data-show-info .to-submit input{
+	position: relative;
+	display: inline-block;
+	background: #00B4EF;
+	border-radius: 4px;
+	padding: 4px 12px;
+	overflow: hidden;
+	color: white;
+	text-decoration: none;
+	text-indent: 0;
+	line-height: 20px;
+}*/
+
 .data-show-container .data-show-chart {
 	width: 100%;
 }
@@ -288,4 +330,27 @@
 
 .data-list-container .list i{
 	float: right;
+}
+
+#data-show-info .data-show-info-item {
+	width: 100%;
+	margin: 10px 0;
+}
+
+#data-show-info .data-show-info-item::after {
+	content: '.';
+	display: block;
+	height: 0;
+	visibility: hidden;
+	clear: both;
+}
+
+#data-show-info .data-show-info-name {
+	float: left;
+	margin-left: 20px;
+	width: 30%;
+}
+
+#data-show-info .data-show-info-value {
+	float: left;
 }

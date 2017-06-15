@@ -17,7 +17,7 @@
 					<input type="text" ng-model="filterList"/>
 					<input type="button" value="搜索" ng-click="toFilterList(filterList)"/>
 				</div>
-				<div class="list" ng-repeat="item in historyList" ng-click="goDetail(item.historyId)">
+				<div class="list" ng-repeat="item in historyList" ng-click="goDetail(item.historyId, item.historyName, item.historyTime)">
 					<span>{{item.historyTime + item.historyName}}</span>
 					<i class="fa fa-angle-right"></i>
 				</div>
@@ -25,6 +25,25 @@
 			<div class="data-show-container" ng-show="toDetail">
 				<div class="return">
 					<button ng-click="toReturn()">返回</button>
+				</div>
+				<div id="data-show-info">
+					<h2>患者信息</h2>
+					<div class="data-show-info-item">
+						<div class="data-show-info-name">
+							患者名字:
+						</div>
+						<div class="data-show-info-value">
+							{{patientName}}
+						</div>
+					</div>
+					<div class="data-show-info-item">
+						<div class="data-show-info-name">
+							患者记录数据的开始时间:
+						</div>
+						<div class="data-show-info-value">
+							{{patientDate}}
+						</div>
+					</div>
 				</div>
 				<div class="data-show-result">
 					<div id="data-show-heart-rate">

@@ -14,6 +14,8 @@ angular.module('homeApp').controller('listCtrl', function($scope, $http){
 	$scope.circleR2 = 4;
 	$scope.grid2 = true;
 	$scope.outcome1 = {};
+	$scope.patientName = '';
+	$scope.patientDate = '';
 
 	$scope.getHistoryList = function () {
 		$http({
@@ -63,14 +65,16 @@ angular.module('homeApp').controller('listCtrl', function($scope, $http){
 		$scope.toDetail = false;
 	}
 
-	$scope.goDetail = function (id) {
-		$scope.drawChart(id);
+	$scope.goDetail = function (id, name, time) {
+		$scope.drawChart(id, name, time);
 	};
 
-	$scope.drawChart = function (id) {
+	$scope.drawChart = function (id, name, time) {
         $http.post('/getRecordDetail', {
             'historyId': id
         }).then(function(req){
+        	$scope.patientName = name;
+        	$scope.patientDate = time;
 			for(let i = 0; i < req.data.lineChart.length; i++){
 				datasetOrigin1.push({
 					x: i,
