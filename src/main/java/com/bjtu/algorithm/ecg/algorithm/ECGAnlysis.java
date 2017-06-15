@@ -208,7 +208,7 @@ public class ECGAnlysis {
 	/**
 	 * 获得评价和建议
 	 */
-	public List<Map<String, Object>> getAdivse() {
+	public List<Map<String, Object>> getAdvise() {
 		List<Map<String, Object>> list = new ArrayList<>();
 		String[] colNames = new String[] {
 				"result",
