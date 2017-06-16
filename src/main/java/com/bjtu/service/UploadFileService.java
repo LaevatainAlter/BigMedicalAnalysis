@@ -60,6 +60,7 @@ public class UploadFileService {
             json.put("lineChart", ecg.getHeartBeatPerSecond());
             json.put("scatterPlot", ecg.getRRDistance());
             json.put("outcome", ecg.getNumerics());
+            json.put("desc",ecg.getAdvise());
             File dataFile = new File(userDir + File.separator + uuid + ".data");
             UploadRecordBean urb = new UploadRecordBean(file.getOriginalFilename(),uuid,userDAO.findUserById(uid));
             urb.setAnalysis(true);
