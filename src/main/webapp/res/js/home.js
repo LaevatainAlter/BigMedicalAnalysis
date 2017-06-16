@@ -25,13 +25,12 @@ angular.module('homeApp', ['ngFileUpload']).controller('homeCtrl', function($sco
 	};
 	
 	$scope.toLogOut = function() {
-		// $http.post('/toLogOut', {
-		//
-		// }).then(function(req){
-		//
-		// }, function(error){
-		//
-		// });
-		console.log('log out');
+		 $http.post('/logout', {
+		
+		 }).then(function(req){
+			 console.log('log out');
+		 }, function(error){
+		
+		 });
 	};
 });

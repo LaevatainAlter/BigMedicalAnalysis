@@ -14,6 +14,7 @@ angular.module('homeApp').controller('listCtrl', function($scope, $http){
 	$scope.circleR2 = 4;
 	$scope.grid2 = true;
 	$scope.outcome1 = {};
+	$scope.outcome2 = {};
 	$scope.patientName = '';
 	$scope.patientDate = '';
 
@@ -90,6 +91,7 @@ angular.module('homeApp').controller('listCtrl', function($scope, $http){
 			$scope.filterParamChgLine($scope.filterParam1, $scope.circleR1, $scope.grid1, $scope.assist1);
 			$scope.filterParamChgScatter($scope.filterParam2, $scope.circleR2, $scope.grid2);
 			$scope.outcome1 = req.data.outcome;
+			$scope.outcome1 = req.data.desc;
 			var datasetPie1 = [
 				[$scope.outcome1[1]['name'], $scope.outcome1[1]['value'].substr(0,$scope.outcome1[1]['value'].length - 1)],
 				[$scope.outcome1[2]['name'], $scope.outcome1[2]['value'].substr(0,$scope.outcome1[2]['value'].length - 1)],

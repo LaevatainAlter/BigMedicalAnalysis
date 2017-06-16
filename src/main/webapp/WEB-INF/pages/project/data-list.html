@@ -80,6 +80,18 @@
 						<div class="data-show-chart">
 
 						</div>
+						<table>
+							<tr>
+								<th>评估结果</th>
+								<th>常见症状</th>
+								<th>调理建议</th>
+							</tr>
+							<tr ng-repeat="item in outcome2">
+								<td>{{item.result}}</td>
+								<td>{{item.symptom}}</td>
+								<td>{{item.suggest}}</td>
+							</tr>
+						</table>
 					</div>
 					<div id="data-show-poincare">
 						<h2>Poincare散点图</h2>
