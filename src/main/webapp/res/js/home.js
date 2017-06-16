@@ -30,7 +30,7 @@ angular.module('homeApp', ['ngFileUpload']).controller('homeCtrl', function($sco
 		 }).then(function(req){
 			 console.log('log out');
 		 }, function(error){
-		
+			 console.log('error');
 		 });
 	};
 });

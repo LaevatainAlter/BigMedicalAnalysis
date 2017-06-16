@@ -14,8 +14,8 @@ angular.module('homeApp').controller('dataCtrl', function($scope, $http, Upload)
 	$scope.circleR2 = 4;
 	$scope.grid2 = true;
 	$scope.noResult = true;
-	$scope.outcome1 = {};
 	$scope.outcome2 = {};
+	$scope.outcome1 = {};
 
 	$scope.toSubmit = function() {
         $scope.drawChart();

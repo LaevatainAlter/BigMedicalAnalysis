@@ -13,8 +13,8 @@ angular.module('homeApp').controller('listCtrl', function($scope, $http){
 	$scope.filterParam2 = 10;
 	$scope.circleR2 = 4;
 	$scope.grid2 = true;
-	$scope.outcome1 = {};
 	$scope.outcome2 = {};
+	$scope.outcome1 = {};
 	$scope.patientName = '';
 	$scope.patientDate = '';
 
