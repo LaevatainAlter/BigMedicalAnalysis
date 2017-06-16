@@ -13,7 +13,7 @@ public class Test {
 		double[] rr = ecg.getRRDistance();											// RR间期
 		int[] heartBeat = ecg.getHeartBeatPerSecond();								// 心率
 		
-		List<Map<String, Object>> result = ecg.getNumerics();
+		List<Map<String, Object>> result = ecg.getAdvise();
 		
 		System.out.println(result);
 	}

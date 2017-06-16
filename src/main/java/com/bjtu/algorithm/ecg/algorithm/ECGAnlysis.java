@@ -204,4 +204,31 @@ public class ECGAnlysis {
 		
 		return list;
 	}
+	
+	/**
+	 * 获得评价和建议
+	 */
+	public List<Map<String, Object>> getAdvise() {
+		List<Map<String, Object>> list = new ArrayList<>();
+		String[] colNames = new String[] {
+				"result",
+				"symptom",
+				"suggest"};
+		String[][] tables = new String[][] {
+				{"阳热状态", "手脚发热、不怕冷怕热、穿得少盖得少、心烦、多汗", "1.银花上品冲调粉，5克/次，2次/每日，温水冲服；2.冷水浴或游泳；3.少吃羊肉或辛辣食品。"},
+				{"睡眠时间过短 睡眠轻浅", "感冒、多梦、夜尿多、性欲低、食欲差、脾气爆、皮肤干", "1.酸枣上品冲调粉，10克/次，2次/日，温水冲服；2.不吃过饱；3.不饮用咖啡、茶叶。"},
+				{"过度兴奋", "多语、多动、性格外向、甚至狂躁不安", "1.百合上品冲调粉，10克/次，2次/日，温水冲服；2.放慢生活节奏；3.打太极、练瑜伽、听舒缓音乐。"},
+				{"心脏的潜力很差", "胸闷憋气、胸痛、心慌、下肢浮肿", "1.到医院就诊；2.严禁兴奋、过饱、用力排便。"}
+		};
+		
+		for (int i = 0; i < tables.length; ++i) {
+			Map<String, Object> map = new LinkedHashMap<>();
+			for (int j = 0; j < colNames.length && j < tables[i].length; ++j) {
+				map.put(colNames[j], tables[i][j]);
+			}
+			list.add(map);
+		}
+		
+		return list;
+	}
 }
