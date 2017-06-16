@@ -45,7 +45,7 @@ angular.module('homeApp').controller('dataCtrl', function($scope, $http, Upload)
 			$scope.filterParamChgLine($scope.filterParam1, $scope.circleR1, $scope.grid1, $scope.assist1);
 			$scope.filterParamChgScatter($scope.filterParam2, $scope.circleR2, $scope.grid2);
 			$scope.outcome1 = req.data.outcome;
-			$scope.outcome1 = req.data.desc;
+			$scope.outcome2 = req.data.desc;
 			var datasetPie1 = [
 				[$scope.outcome1[1]['name'], $scope.outcome1[1]['value'].substr(0,$scope.outcome1[1]['value'].length - 1)],
 				[$scope.outcome1[2]['name'], $scope.outcome1[2]['value'].substr(0,$scope.outcome1[2]['value'].length - 1)],
