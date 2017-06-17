@@ -5,6 +5,7 @@ import com.bjtu.service.UploadFileService;
 import com.bjtu.util.GlobalVariableHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,6 +21,7 @@ import java.util.*;
  * Created by gimling on 17-5-21.
  */
 @Controller
+@PreAuthorize("hasRole('ROLE_USER')")
 public class PatientInfoCtrl {
 
     private final DateFormat dateTimeFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -55,9 +57,9 @@ public class PatientInfoCtrl {
      */
     @PostMapping(path = "/toUploadFile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    public Map uploadFile(@RequestParam(value = "file", required = false) MultipartFile file,
-                          @RequestParam(value = "patientName", required = false, defaultValue = "") String patientName,
-                          @RequestParam(value = "patientDate", required = false, defaultValue = "") String patientDate,
+    public Map uploadFile(@RequestParam(value = "file") MultipartFile file,
+                          @RequestParam(value = "patientName", defaultValue = "") String patientName,
+                          @RequestParam(value = "patientDate", defaultValue = "") String patientDate,
                           HttpServletRequest request) throws IOException, ParseException {
         Map json = new LinkedHashMap();
         Date date = null;
@@ -65,6 +67,11 @@ public class PatientInfoCtrl {
             date = simpleDateFormat.parse(patientDate);
         } catch (ParseException e) {
             json.put("errMsg","时间格式错误");
+            json.put("errField","patientDate");
+            return json;
+        }
+        if(!file.getOriginalFilename().endsWith(".txt")){
+            json.put("errMsg","文件格式错误");
             json.put("errField","patientDate");
             return json;
         }
